@@ -1,4 +1,4 @@
-package com.challenge.instantflix.presentation.features.dashboard.settings
+package com.challenge.instantflix.presentation.feature.dashboard.settings
 
 import androidx.lifecycle.ViewModel
 
