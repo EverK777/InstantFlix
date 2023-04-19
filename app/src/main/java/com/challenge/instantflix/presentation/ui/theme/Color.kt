@@ -2,10 +2,9 @@ package com.challenge.instantflix.presentation.ui.theme
 
 import androidx.compose.ui.graphics.Color
 
-val Purple80 = Color(0xFFD0BCFF)
-val PurpleGrey80 = Color(0xFFCCC2DC)
-val Pink80 = Color(0xFFEFB8C8)
-
-val Purple40 = Color(0xFF6650a4)
-val PurpleGrey40 = Color(0xFF625b71)
-val Pink40 = Color(0xFF7D5260)
+val GreenInstaleap = Color(0xFF26C65F)
+val LightGreenInstaleap = Color(0xFFDDF8E7)
+val BlueInstaleap = Color(0xFF1785FF)
+val DarkMate = Color(0XFF232323)
+val DarkMate2 = Color(0XFF292727)
+val WhiteLight = Color(0xFFF9F9F9)
