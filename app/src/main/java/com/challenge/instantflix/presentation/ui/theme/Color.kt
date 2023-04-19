@@ -1,4 +1,4 @@
-package com.challenge.instantflix.ui.theme
+package com.challenge.instantflix.presentation.ui.theme
 
 import androidx.compose.ui.graphics.Color
 
