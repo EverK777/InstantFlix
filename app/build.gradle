@@ -5,6 +5,16 @@ plugins {
     id "kotlin-kapt"
 }
 
+def fileName = "secrets.properties"
+
+if (!rootProject.file(fileName).exists())
+    throw new Exception("File that contains secrets not found. add the file [secrets.properties]")
+
+
+def apikeyPropertiesFile = rootProject.file(fileName)
+def apikeyProperties = new Properties()
+apikeyProperties.load(new FileInputStream(apikeyPropertiesFile))
+
 android {
     namespace 'com.challenge.instantflix'
     compileSdk 33
@@ -28,9 +38,19 @@ android {
     }
 
     buildTypes {
+
+        debug {
+            buildConfigField("String", "BASE_URL", apikeyProperties['BASE_URL'])
+            buildConfigField("String", "API_KEY", apikeyProperties['API_KEY'])
+            buildConfigField("String", "ACCESS_TOKEN", apikeyProperties['ACCESS_TOKEN'])
+        }
+
         release {
-            minifyEnabled false
+            minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            buildConfigField("String", "BASE_URL", apikeyProperties['BASE_URL'])
+            buildConfigField("String", "API_KEY", apikeyProperties['API_KEY'])
+            buildConfigField("String", "ACCESS_TOKEN", apikeyProperties['ACCESS_TOKEN'])
         }
     }
     compileOptions {
