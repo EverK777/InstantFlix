@@ -1,4 +1,4 @@
-package com.challenge.instantflix.presentation.features.detail
+package com.challenge.instantflix.presentation.feature.detail
 
 import androidx.lifecycle.ViewModel
 

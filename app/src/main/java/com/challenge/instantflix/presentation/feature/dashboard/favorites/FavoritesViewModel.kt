@@ -1,4 +1,4 @@
-package com.challenge.instantflix.presentation.features.dashboard.favorites
+package com.challenge.instantflix.presentation.feature.dashboard.favorites
 
 import androidx.lifecycle.ViewModel
 
