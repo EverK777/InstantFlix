@@ -1,7 +1,9 @@
 package com.challenge.instantflix.core.data.external.datasource
 
+import com.challenge.instantflix.core.data.model.GenreResponse
 import com.challenge.instantflix.core.data.model.MovieTvResponse
 import retrofit2.http.GET
+import retrofit2.http.Path
 import retrofit2.http.Query
 
 interface TheMovieDBApi {
@@ -9,32 +11,28 @@ interface TheMovieDBApi {
     @GET("trending/all/week")
     suspend fun requestTrendingMoviesSeries(): MovieTvResponse
 
-    @GET("movie/top_rated")
-    suspend fun requestTopRatedMovies(
+    @GET("{type}/top_rated")
+    suspend fun requestTopRated(
+        @Path("type") type: String,
         @Query("page") page: Int,
         @Query("sort_by") sortBy: String,
     ): MovieTvResponse
 
-    @GET("movie/popular")
-    suspend fun requestPopularMovies(
+    @GET("{type}/popular")
+    suspend fun requestPopular(
+        @Path("type") type: String,
         @Query("page") page: Int,
-    )
+    ): MovieTvResponse
 
-    @GET("discover/movie")
-    suspend fun requestMoviesByGenre(
+    @GET("discover/{type}")
+    suspend fun requestByGenre(
+        @Path("type") type: String,
         @Query("page") page: Int,
         @Query("with_genres") genreId: Int,
     ): MovieTvResponse
 
-    @GET("tv/top_rated")
-    suspend fun requestTopRatedSeries(): MovieTvResponse
-
-    @GET("tv/popular")
-    suspend fun requestPopularSeries()
-
-    @GET("discover/tv")
-    suspend fun requestTvShowsByGenre(
-        @Query("page") page: Int,
-        @Query("with_genres") genreId: Int,
-    ): MovieTvResponse
+    @GET("genre/{type}")
+    suspend fun requestGenre(
+        @Path("type") type: String,
+    ): GenreResponse
 }

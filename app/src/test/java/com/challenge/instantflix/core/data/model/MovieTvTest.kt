@@ -16,6 +16,7 @@ class MovieTvTest {
             releaseDate = "",
             posterPath = "",
             backdropPath = "/abc123.jpg",
+            genreIds = emptyList(),
         )
         val expectedUrl = "https://www.themoviedb.org/t/p/w600_and_h900_bestv2/abc123.jpg"
         assertEquals(expectedUrl, movieTv.getImageBackDrop())
@@ -32,6 +33,7 @@ class MovieTvTest {
             releaseDate = "",
             posterPath = "",
             backdropPath = "",
+            genreIds = emptyList(),
         )
         val expectedUrl = "https://www.themoviedb.org/t/p/w600_and_h900_bestv2"
         assertEquals(expectedUrl, movieTv.getImageBackDrop())
@@ -48,6 +50,7 @@ class MovieTvTest {
             releaseDate = "",
             posterPath = "/abc123.jpg",
             backdropPath = "",
+            genreIds = emptyList(),
         )
         val expectedUrl = "https://www.themoviedb.org/t/p/w600_and_h900_bestv2/abc123.jpg"
         assertEquals(expectedUrl, movieTv.getImagePoster())
@@ -64,6 +67,7 @@ class MovieTvTest {
             releaseDate = "",
             posterPath = "",
             backdropPath = "",
+            genreIds = emptyList(),
         )
         val expectedUrl = "https://www.themoviedb.org/t/p/w600_and_h900_bestv2"
         assertEquals(expectedUrl, movieTv.getImagePoster())
