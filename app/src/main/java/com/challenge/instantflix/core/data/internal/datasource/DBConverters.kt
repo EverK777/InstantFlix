@@ -52,7 +52,8 @@ class DBConverters {
     fun fromStringToTypeRequest(value: String): TypeRequest {
         return when (value) {
             TypeRequest.MOVIE.type -> TypeRequest.MOVIE
-            else -> TypeRequest.TV_SHOW
+            TypeRequest.TV_SHOW.type -> TypeRequest.TV_SHOW
+            else -> TypeRequest.ALL
         }
     }
 
@@ -67,6 +68,7 @@ class DBConverters {
         return when (value) {
             TypeRequest.MOVIE -> TypeRequest.MOVIE.type
             TypeRequest.TV_SHOW -> TypeRequest.TV_SHOW.type
+            TypeRequest.ALL -> TypeRequest.ALL.type
         }
     }
 
