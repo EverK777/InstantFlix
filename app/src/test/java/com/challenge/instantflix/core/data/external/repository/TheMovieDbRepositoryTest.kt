@@ -4,6 +4,7 @@ import com.challenge.instantflix.core.data.external.datasource.TheMovieDBApi
 import com.challenge.instantflix.core.data.model.ErrorResponse
 import com.challenge.instantflix.core.data.model.GenreResponse
 import com.challenge.instantflix.core.data.model.MovieTvResponse
+import com.challenge.instantflix.core.data.model.TypeRequest
 import com.challenge.instantflix.core.utils.ApiResultHandle
 import com.challenge.instantflix.core.utils.SafeApiRequest
 import io.mockk.coEvery
@@ -50,21 +51,21 @@ class TheMovieDbRepositoryTest {
         runTest {
             safeApiRequest.setRequestState(ApiRequestStateTest.SUCCESS)
             coEvery {
-                theMovieDBApi.requestTrendingMoviesSeries()
+                theMovieDBApi.requestTrendingMoviesSeries(TypeRequest.ALL.type)
             } returns movieTvResponse
 
-            val result = theMovieDbDataSource.requestTrendingMoviesSeries()
+            val result = theMovieDbDataSource.requestTrendingMoviesSeries(TypeRequest.ALL)
 
             assertEquals((result as ApiResultHandle.Success).value, movieTvResponse)
 
-            coVerify { theMovieDBApi.requestTrendingMoviesSeries() }
+            coVerify { theMovieDBApi.requestTrendingMoviesSeries(TypeRequest.ALL.type) }
         }
 
     @Test
     fun `requestTrendingMoviesSeries returns apiError`() =
         runTest {
             safeApiRequest.setRequestState(ApiRequestStateTest.ERROR)
-            val result = theMovieDbDataSource.requestTrendingMoviesSeries()
+            val result = theMovieDbDataSource.requestTrendingMoviesSeries(TypeRequest.ALL)
             assertTrue(result is ApiResultHandle.ApiError)
         }
 
@@ -72,7 +73,69 @@ class TheMovieDbRepositoryTest {
     fun `requestTrendingMoviesSeries should returns networkError`() =
         runTest {
             safeApiRequest.setRequestState(ApiRequestStateTest.NETWORK_ERROR)
-            val result = theMovieDbDataSource.requestTrendingMoviesSeries()
+            val result = theMovieDbDataSource.requestTrendingMoviesSeries(TypeRequest.ALL)
+            assertTrue(result is ApiResultHandle.NetworkError)
+        }
+
+    @Test
+    fun `requestTrendingMovies should return correct response when API call is successful`() =
+        runTest {
+            safeApiRequest.setRequestState(ApiRequestStateTest.SUCCESS)
+            coEvery {
+                theMovieDBApi.requestTrendingMoviesSeries(TypeRequest.MOVIE.type)
+            } returns movieTvResponse
+
+            val result = theMovieDbDataSource.requestTrendingMoviesSeries(TypeRequest.MOVIE)
+
+            assertEquals((result as ApiResultHandle.Success).value, movieTvResponse)
+
+            coVerify { theMovieDBApi.requestTrendingMoviesSeries(TypeRequest.MOVIE.type) }
+        }
+
+    @Test
+    fun `requestTrendingMovies returns apiError`() =
+        runTest {
+            safeApiRequest.setRequestState(ApiRequestStateTest.ERROR)
+            val result = theMovieDbDataSource.requestTrendingMoviesSeries(TypeRequest.MOVIE)
+            assertTrue(result is ApiResultHandle.ApiError)
+        }
+
+    @Test
+    fun `requestTrendingMovies should returns networkError`() =
+        runTest {
+            safeApiRequest.setRequestState(ApiRequestStateTest.NETWORK_ERROR)
+            val result = theMovieDbDataSource.requestTrendingMoviesSeries(TypeRequest.MOVIE)
+            assertTrue(result is ApiResultHandle.NetworkError)
+        }
+
+    @Test
+    fun `requestTrendingSeries should return correct response when API call is successful`() =
+        runTest {
+            safeApiRequest.setRequestState(ApiRequestStateTest.SUCCESS)
+            coEvery {
+                theMovieDBApi.requestTrendingMoviesSeries(TypeRequest.TV_SHOW.type)
+            } returns movieTvResponse
+
+            val result = theMovieDbDataSource.requestTrendingMoviesSeries(TypeRequest.TV_SHOW)
+
+            assertEquals((result as ApiResultHandle.Success).value, movieTvResponse)
+
+            coVerify { theMovieDBApi.requestTrendingMoviesSeries(TypeRequest.TV_SHOW.type) }
+        }
+
+    @Test
+    fun `requestTrendingSeries returns apiError`() =
+        runTest {
+            safeApiRequest.setRequestState(ApiRequestStateTest.ERROR)
+            val result = theMovieDbDataSource.requestTrendingMoviesSeries(TypeRequest.TV_SHOW)
+            assertTrue(result is ApiResultHandle.ApiError)
+        }
+
+    @Test
+    fun `requestTrendingSeries should returns networkError`() =
+        runTest {
+            safeApiRequest.setRequestState(ApiRequestStateTest.NETWORK_ERROR)
+            val result = theMovieDbDataSource.requestTrendingMoviesSeries(TypeRequest.TV_SHOW)
             assertTrue(result is ApiResultHandle.NetworkError)
         }
 

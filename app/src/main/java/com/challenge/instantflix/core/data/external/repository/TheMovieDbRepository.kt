@@ -3,6 +3,7 @@ package com.challenge.instantflix.core.data.external.repository
 import com.challenge.instantflix.core.data.external.datasource.TheMovieDBApi
 import com.challenge.instantflix.core.data.model.GenreResponse
 import com.challenge.instantflix.core.data.model.MovieTvResponse
+import com.challenge.instantflix.core.data.model.TypeRequest
 import com.challenge.instantflix.core.utils.ApiResultHandle
 import com.challenge.instantflix.core.utils.SafeApiRequest
 import kotlinx.coroutines.CoroutineDispatcher
@@ -24,8 +25,8 @@ class TheMovieDbRepository(
      * Requests the trending movies and TV series from the MovieDB API.
      * @return An ApiResultHandle<MovieTvResponse> object representing the result of the request.
      */
-    override suspend fun requestTrendingMoviesSeries(): ApiResultHandle<MovieTvResponse> {
-        return safeApiRequest.request(coroutineDispatcher) { theMovieDBApi.requestTrendingMoviesSeries() }
+    override suspend fun requestTrendingMoviesSeries(typeRequest: TypeRequest): ApiResultHandle<MovieTvResponse> {
+        return safeApiRequest.request(coroutineDispatcher) { theMovieDBApi.requestTrendingMoviesSeries(typeRequest.type) }
     }
 
     /**

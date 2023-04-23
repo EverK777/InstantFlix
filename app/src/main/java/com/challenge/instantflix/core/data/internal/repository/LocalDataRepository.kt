@@ -21,7 +21,7 @@ interface LocalDataRepository {
 
     suspend fun upsertMovieOrTvCached(movieTvEntity: MovieTvEntity)
 
-    suspend fun getMovieTvCached(id: Int): MovieTvEntity
+    suspend fun getMovieTvCached(id: Int): MovieTvEntity?
     suspend fun upsertGenre(genre: Genre)
     suspend fun getGenre(genreId: Int): Genre
     suspend fun clearAll()

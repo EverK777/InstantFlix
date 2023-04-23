@@ -59,7 +59,7 @@ interface MovieTVDao {
      * @return the [MovieTvEntity] with the specified ID
      */
     @Query("SELECT * FROM movietventity where id = :id")
-    suspend fun getMovieTvCached(id: Int): MovieTvEntity
+    suspend fun getMovieTvCached(id: Int): MovieTvEntity?
 
     /**
      * Inserts or updates a [MovieTvEntity] object in the database.

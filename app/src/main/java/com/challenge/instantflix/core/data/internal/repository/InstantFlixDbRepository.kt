@@ -79,7 +79,7 @@ class InstantFlixDbRepository(
      *@param id The ID of the [MovieTvEntity] to retrieve.
      *@return The cached [MovieTvEntity] with the given ID.
      */
-    override suspend fun getMovieTvCached(id: Int): MovieTvEntity {
+    override suspend fun getMovieTvCached(id: Int): MovieTvEntity? {
         return movieTVDao.getMovieTvCached(id)
     }
 

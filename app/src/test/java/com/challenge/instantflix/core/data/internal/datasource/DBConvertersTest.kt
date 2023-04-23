@@ -64,6 +64,12 @@ class DBConvertersTest {
     }
 
     @Test
+    fun testFromStringToTypeRequest_all() {
+        val result = dbConverters.fromStringToTypeRequest(TypeRequest.ALL.type)
+        assertEquals(TypeRequest.ALL, result)
+    }
+
+    @Test
     fun testFromStringToTypeRequest_movie() {
         val result = dbConverters.fromStringToTypeRequest(TypeRequest.MOVIE.type)
         assertEquals(TypeRequest.MOVIE, result)
@@ -73,6 +79,12 @@ class DBConvertersTest {
     fun testFromStringToTypeRequest_tvShow() {
         val result = dbConverters.fromStringToTypeRequest(TypeRequest.TV_SHOW.type)
         assertEquals(TypeRequest.TV_SHOW, result)
+    }
+
+    @Test
+    fun testFromTypeRequestToString_all() {
+        val result = dbConverters.fromTypeRequestToString(TypeRequest.ALL)
+        assertEquals(TypeRequest.ALL.type, result)
     }
 
     @Test

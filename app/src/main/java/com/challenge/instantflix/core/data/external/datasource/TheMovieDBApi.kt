@@ -8,8 +8,8 @@ import retrofit2.http.Query
 
 interface TheMovieDBApi {
 
-    @GET("trending/all/week")
-    suspend fun requestTrendingMoviesSeries(): MovieTvResponse
+    @GET("trending/{type}/week")
+    suspend fun requestTrendingMoviesSeries(@Path("type") type: String): MovieTvResponse
 
     @GET("{type}/top_rated")
     suspend fun requestTopRated(

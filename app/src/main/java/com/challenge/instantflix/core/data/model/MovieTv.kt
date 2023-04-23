@@ -18,3 +18,37 @@ data class MovieTv(
     @SerializedName("backdrop_path")
     val backdropPath: String?,
 )
+
+/**
+ *Converts a Movie or TV Show object to a MovieTvEntity object.
+ *@param genreIdRequest the ID of the requested genre (optional)
+ *@param requestCategory the [RequestCategory]
+ *@param typeRequest the [TypeRequest]
+ *@param page the page number of the request
+ *@param totalResult the total number of results for the request
+ *@return a MovieTvEntity object containing the relevant information from the input object
+ */
+fun MovieTv.toMovieTvEntity(
+    genreIdRequest: Int? = null,
+    requestCategory: RequestCategory,
+    typeRequest: TypeRequest,
+    page: Int?,
+    totalResult: Int?,
+): MovieTvEntity {
+    return MovieTvEntity(
+        id = id,
+        title = title,
+        overview = overview,
+        popularity = popularity,
+        genreIds = genreIds,
+        voteAverage = voteAverage,
+        releaseDate = releaseDate,
+        posterPath = posterPath,
+        backdropPath = backdropPath,
+        genreIdRequested = genreIdRequest,
+        requestCategory = requestCategory,
+        typeRequest = typeRequest,
+        page = page,
+        totalResults = totalResult,
+    )
+}
