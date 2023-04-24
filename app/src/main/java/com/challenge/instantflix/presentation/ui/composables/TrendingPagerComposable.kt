@@ -2,8 +2,11 @@ package com.challenge.instantflix.presentation.ui.composables
 
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -57,10 +60,13 @@ fun TrendingPagerComposable(
         }
 
         ConstraintLayout(
-            modifier = Modifier.alpha(animationAlpha.value),
+            modifier = Modifier.alpha(animationAlpha.value)
+                .fillMaxWidth(),
         ) {
             val (background, description) = createRefs()
-
+            Box(modifier = Modifier.wrapContentSize()) {
+                PosterImageComposable(posterPath = currentItem.value.posterPath ?: "")
+            }
             Column(
                 modifier = Modifier
                     .padding(horizontal = 16.dp)
@@ -91,7 +97,10 @@ fun TrendingPagerComposable(
                     horizontalAlignment = Alignment.CenterHorizontally,
                     verticalArrangement = Arrangement.Center,
                 ) {
-                    Icon(painter = painterResource(id = R.drawable.baseline_info_24), contentDescription = "Info icon")
+                    Icon(
+                        painter = painterResource(id = R.drawable.baseline_info_24),
+                        contentDescription = "Info icon",
+                    )
                     Text(
                         text = stringResource(R.string.info),
                         color = MaterialTheme.colorScheme.onPrimary,

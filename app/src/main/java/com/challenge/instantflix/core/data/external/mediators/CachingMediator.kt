@@ -8,6 +8,7 @@ import com.challenge.instantflix.core.data.model.TypeRequest
 import com.challenge.instantflix.core.data.model.toMovieTvEntity
 
 interface CachingMediator {
+    // TODO: FIX UNIT TEST FOR GENRE
     suspend fun saveDataToCache(
         value: MovieTvResponse,
         loadType: LoadType,
