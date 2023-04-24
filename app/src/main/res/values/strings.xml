@@ -2,4 +2,5 @@
     <string name="app_name">InstantFlix</string>
     <string name="something_went_network_connection">Something went wrong, verify your internet connection</string>
     <string name="info">Info</string>
+    <string name="popular_movies">Popular movies</string>
 </resources>

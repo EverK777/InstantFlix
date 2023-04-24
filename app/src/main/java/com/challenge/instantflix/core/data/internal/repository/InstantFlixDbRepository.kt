@@ -67,11 +67,12 @@ class InstantFlixDbRepository(
     }
 
     /**
-     *Inserts or updates a [MovieTvEntity] object in the database.
-     *@param movieTvEntity the [MovieTvEntity] object to insert or update.
+     * Inserts or updates a [MovieTvEntity] List in the database.
+     * @param movieTvEntities List of [MovieTvEntity] object to insert or update
      */
-    override suspend fun upsertMovieOrTvCached(movieTvEntity: MovieTvEntity) {
-        movieTVDao.upsertMovieOrTvCached(movieTvEntity)
+    //TODO: FIX TEST
+    override suspend fun upsertMovieOrTvCached(movieTvEntities: List<MovieTvEntity>) {
+        movieTVDao.upsertMovieOrTvCached(movieTvEntities)
     }
 
     /**
@@ -100,7 +101,7 @@ class InstantFlixDbRepository(
         return movieTVDao.getGenre(genreId)
     }
 
-    // TODO: ADD UNIT TEST AND COMMENTS
+    //TODO: ADD UNIT TEST AND COMMENTS
     override suspend fun getGenres(): List<Genre> {
         return movieTVDao.genres()
     }

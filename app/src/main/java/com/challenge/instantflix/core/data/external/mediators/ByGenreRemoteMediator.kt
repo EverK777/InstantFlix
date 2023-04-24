@@ -7,6 +7,7 @@ import androidx.paging.RemoteMediator
 import com.challenge.instantflix.core.data.external.repository.RemoteRepository
 import com.challenge.instantflix.core.data.internal.repository.LocalDataRepository
 import com.challenge.instantflix.core.data.model.MovieTvEntity
+import com.challenge.instantflix.core.data.model.RequestCategory
 import com.challenge.instantflix.core.data.model.TypeRequest
 import com.challenge.instantflix.core.exception.ApiException
 import com.challenge.instantflix.core.exception.NetworkError
@@ -52,6 +53,7 @@ class ByGenreRemoteMediator(
                     loadType = loadType,
                     typeRequest = typeRequest,
                     localDataRepository = localDataRepository,
+                    requestCategory = RequestCategory.BY_GENRE,
                 )
                 MediatorResult.Success(endOfPaginationReached = moviesSeriesByGenre.value.result.isEmpty())
             }

@@ -33,7 +33,7 @@ object PagersMediatorsModule {
         remoteRepository: RemoteRepository,
     ): Pager<Int, MovieTvEntity> {
         return Pager(
-            config = PagingConfig(20),
+            config = PagingConfig(pageSize = 20),
             remoteMediator = TrendingMoviesSeriesRemoteMediator(
                 localDataRepository = localDataRepository,
                 remoteRepository = remoteRepository,
@@ -53,7 +53,7 @@ object PagersMediatorsModule {
         remoteRepository: RemoteRepository,
     ): Pager<Int, MovieTvEntity> {
         return Pager(
-            config = PagingConfig(20),
+            config = PagingConfig(pageSize = 20),
             remoteMediator = TrendingMoviesSeriesRemoteMediator(
                 localDataRepository = localDataRepository,
                 remoteRepository = remoteRepository,
@@ -76,7 +76,7 @@ object PagersMediatorsModule {
         remoteRepository: RemoteRepository,
     ): Pager<Int, MovieTvEntity> {
         return Pager(
-            config = PagingConfig(20),
+            config = PagingConfig(pageSize = 20),
             remoteMediator = TrendingMoviesSeriesRemoteMediator(
                 localDataRepository = localDataRepository,
                 remoteRepository = remoteRepository,
@@ -99,7 +99,7 @@ object PagersMediatorsModule {
         remoteRepository: RemoteRepository,
     ): Pager<Int, MovieTvEntity> {
         return Pager(
-            config = PagingConfig(20),
+            config = PagingConfig(pageSize = 20),
             remoteMediator = PopularRemoteMediator(
                 localDataRepository = localDataRepository,
                 remoteRepository = remoteRepository,

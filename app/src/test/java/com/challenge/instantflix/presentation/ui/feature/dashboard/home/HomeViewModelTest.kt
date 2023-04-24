@@ -3,7 +3,7 @@ package com.challenge.instantflix.presentation.ui.feature.dashboard.home
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.paging.Pager
 import com.challenge.instantflix.core.data.model.MovieTvEntity
-import com.challenge.instantflix.core.usecase.RequestTrendingMoviesAndTvShowsUseCase
+import com.challenge.instantflix.core.usecase.RequestPaginatedDataUseCase
 import com.challenge.instantflix.presentation.feature.dashboard.home.HomeViewModel
 import io.mockk.every
 import io.mockk.mockk
@@ -29,7 +29,7 @@ class HomeViewModelTest {
 
     private lateinit var viewModel: HomeViewModel
 
-    private lateinit var mockUseCase: RequestTrendingMoviesAndTvShowsUseCase
+    private lateinit var mockUseCase: RequestPaginatedDataUseCase
 
     private lateinit var movieTvEntity: MovieTvEntity
 
@@ -52,13 +52,13 @@ class HomeViewModelTest {
 
     @Test
     fun `trendingMoviesTvShowsPagerFlow returns correct data`() = runTest(testDispatcher) {
-        every { mockUseCase.trendingMoviesAndTvShowsPager }.returns(mockPager)
+        every { mockUseCase.pager }.returns(mockPager)
 
         val job = launch {
             viewModel.trendingMoviesTvShowsPagerFlow.single()
         }
         advanceUntilIdle()
-        verify { mockUseCase.trendingMoviesAndTvShowsPager }
+        verify { mockUseCase.pager }
         job.cancel()
     }
 }

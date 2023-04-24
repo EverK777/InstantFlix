@@ -7,20 +7,20 @@ import junit.framework.TestCase.assertEquals
 import org.junit.Before
 import org.junit.Test
 
-class RequestTrendingMoviesAndTvShowsUseCaseTest {
+class RequestPaginatedDataUseCaseTest {
     private val trendingMoviesAndTvShowsPager = mockk<Pager<Int, MovieTvEntity>>()
 
-    private lateinit var requestTrendingMoviesAndTvShowsUseCaseImpl: RequestTrendingMoviesAndTvShowsUseCaseImpl
+    private lateinit var requestTrendingMoviesAndTvShowsUseCaseImpl: RequestPaginatedDataUseCaseImpl
 
     @Before
     fun setUp() {
         requestTrendingMoviesAndTvShowsUseCaseImpl =
-            RequestTrendingMoviesAndTvShowsUseCaseImpl(trendingMoviesAndTvShowsPager)
+            RequestPaginatedDataUseCaseImpl(trendingMoviesAndTvShowsPager)
     }
 
     @Test
     fun `when getTrendingPager should return the correct one`() {
-        val result = requestTrendingMoviesAndTvShowsUseCaseImpl.trendingMoviesAndTvShowsPager
+        val result = requestTrendingMoviesAndTvShowsUseCaseImpl.pager
         assertEquals(trendingMoviesAndTvShowsPager, result)
     }
 }

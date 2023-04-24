@@ -14,14 +14,13 @@ fun BottomGradientComposable(
     Box(
         modifier = modifier
             .background(
-                Brush.horizontalGradient(
+                Brush.verticalGradient(
                     colorStops = arrayOf(
-                        0.0f to MaterialTheme.colorScheme.background.copy(alpha = 1f),
-                        0.25f to MaterialTheme.colorScheme.background.copy(alpha = 0.85f),
-                        0.30f to MaterialTheme.colorScheme.background.copy(alpha = 0.75f),
-                        0.40f to MaterialTheme.colorScheme.background.copy(alpha = 0.50f),
-                        0.50f to MaterialTheme.colorScheme.background.copy(alpha = 0.25f),
-                        0.75f to MaterialTheme.colorScheme.background.copy(alpha = 0f),
+                        0.0f to MaterialTheme.colorScheme.background.copy(alpha = 0f),
+                        0.25f to MaterialTheme.colorScheme.background.copy(alpha = 0.25f),
+                        0.30f to MaterialTheme.colorScheme.background.copy(alpha = 0.50f),
+                        0.40f to MaterialTheme.colorScheme.background.copy(alpha = 0.60f),
+                        0.90f to MaterialTheme.colorScheme.background.copy(alpha = 1f),
                     ),
                 ),
             ),

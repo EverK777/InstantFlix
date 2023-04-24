@@ -19,7 +19,7 @@ interface LocalDataRepository {
         typeRequest: TypeRequest,
     ): PagingSource<Int, MovieTvEntity>
 
-    suspend fun upsertMovieOrTvCached(movieTvEntity: MovieTvEntity)
+    suspend fun upsertMovieOrTvCached(movieTvEntities: List<MovieTvEntity>)
 
     suspend fun getMovieTvCached(id: Int): MovieTvEntity?
     suspend fun upsertGenre(genre: Genre)

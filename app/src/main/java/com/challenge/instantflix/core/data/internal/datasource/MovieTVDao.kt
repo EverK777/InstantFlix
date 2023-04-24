@@ -18,7 +18,7 @@ interface MovieTVDao {
      * @param requestCategory the category to filter the results by
      * @return a [PagingSource] for the requested list of [MovieTvEntity]
      */
-    @Query("SELECT * FROM movietventity where requestCategory = :requestCategory")
+    @Query("SELECT * FROM movietventity")
     fun getMoviesAndTvShowsByCategory(requestCategory: String): PagingSource<Int, MovieTvEntity>
 
     /**
@@ -62,11 +62,13 @@ interface MovieTVDao {
     suspend fun getMovieTvCached(id: Int): MovieTvEntity?
 
     /**
-     * Inserts or updates a [MovieTvEntity] object in the database.
-     * @param movieTvEntity the [MovieTvEntity] object to insert or update
+     * Inserts or updates a [MovieTvEntity] List in the database.
+     * @param movieTvEntities List of [MovieTvEntity] object to insert or update
      */
+
+    // TODO: FIX TEST
     @Upsert
-    suspend fun upsertMovieOrTvCached(movieTvEntity: MovieTvEntity)
+    suspend fun upsertMovieOrTvCached(movieTvEntities: List<MovieTvEntity>)
 
     /**
      * Inserts or updates a [Genre] object in the database.

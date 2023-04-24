@@ -8,11 +8,11 @@ import com.challenge.instantflix.core.data.model.TypeRequest
 import com.challenge.instantflix.core.data.model.toMovieTvEntity
 
 interface CachingMediator {
-    // TODO: FIX UNIT TEST FOR GENRE
     suspend fun saveDataToCache(
         value: MovieTvResponse,
         loadType: LoadType,
         typeRequest: TypeRequest,
+        requestCategory: RequestCategory,
         localDataRepository: LocalDataRepository,
     ) {
         val entities = value.result.map { movieTv ->
@@ -20,7 +20,7 @@ interface CachingMediator {
                 localDataRepository.getGenre(it)?.name ?: ""
             }
             movieTv.toMovieTvEntity(
-                requestCategory = RequestCategory.POPULAR,
+                requestCategory = requestCategory,
                 typeRequest = typeRequest,
                 page = value.page,
                 totalResult = value.totalResults,
@@ -30,8 +30,6 @@ interface CachingMediator {
         if (loadType == LoadType.REFRESH) {
             localDataRepository.clearAll()
         }
-        entities.forEach { movieTvEntity ->
-            localDataRepository.upsertMovieOrTvCached(movieTvEntity)
-        }
+        localDataRepository.upsertMovieOrTvCached(entities)
     }
 }

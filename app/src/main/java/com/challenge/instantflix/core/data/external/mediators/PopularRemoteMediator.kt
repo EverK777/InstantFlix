@@ -7,6 +7,7 @@ import androidx.paging.RemoteMediator
 import com.challenge.instantflix.core.data.external.repository.RemoteRepository
 import com.challenge.instantflix.core.data.internal.repository.LocalDataRepository
 import com.challenge.instantflix.core.data.model.MovieTvEntity
+import com.challenge.instantflix.core.data.model.RequestCategory
 import com.challenge.instantflix.core.data.model.TypeRequest
 import com.challenge.instantflix.core.exception.ApiException
 import com.challenge.instantflix.core.exception.NetworkError
@@ -23,10 +24,15 @@ class PopularRemoteMediator(
         state: PagingState<Int, MovieTvEntity>,
     ): MediatorResult {
         val loadKey = when (loadType) {
-            LoadType.REFRESH -> 1
-            LoadType.PREPEND -> return MediatorResult.Success(
-                endOfPaginationReached = true,
-            )
+            LoadType.REFRESH -> {
+                1
+            }
+
+            LoadType.PREPEND -> {
+                return MediatorResult.Success(
+                    endOfPaginationReached = true,
+                )
+            }
 
             LoadType.APPEND -> {
                 val lastItem = state.lastItemOrNull()
@@ -50,6 +56,7 @@ class PopularRemoteMediator(
                     loadType = loadType,
                     typeRequest = typeRequest,
                     localDataRepository = localDataRepository,
+                    requestCategory = RequestCategory.POPULAR,
                 )
                 MediatorResult.Success(endOfPaginationReached = popularMovies.value.result.isEmpty())
             }
