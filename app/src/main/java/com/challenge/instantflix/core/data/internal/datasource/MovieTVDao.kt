@@ -88,4 +88,8 @@ interface MovieTVDao {
      */
     @Query("DELETE FROM movietventity")
     suspend fun clearAll()
+
+    // TODO: ADD TEST AND COMMENTS
+    @Query("SELECT * from genre")
+    suspend fun genres(): List<Genre>
 }

@@ -100,6 +100,11 @@ class InstantFlixDbRepository(
         return movieTVDao.getGenre(genreId)
     }
 
+    // TODO: ADD UNIT TEST AND COMMENTS
+    override suspend fun getGenres(): List<Genre> {
+        return movieTVDao.genres()
+    }
+
     /**
      *Deletes all data from the database.
      */
