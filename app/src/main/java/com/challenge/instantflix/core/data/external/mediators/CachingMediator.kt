@@ -15,11 +15,15 @@ interface CachingMediator {
         localDataRepository: LocalDataRepository,
     ) {
         val entities = value.result.map { movieTv ->
+            val genres = movieTv.genreIds.map {
+                localDataRepository.getGenre(it)?.name ?: ""
+            }
             movieTv.toMovieTvEntity(
                 requestCategory = RequestCategory.POPULAR,
                 typeRequest = typeRequest,
                 page = value.page,
                 totalResult = value.totalResults,
+                genres = genres,
             )
         }
         if (loadType == LoadType.REFRESH) {

@@ -96,7 +96,7 @@ class InstantFlixDbRepository(
      *@param genreId The ID of the [Genre] to retrieve.
      *@return The [Genre] with the given ID.
      */
-    override suspend fun getGenre(genreId: Int): Genre {
+    override suspend fun getGenre(genreId: Int): Genre? {
         return movieTVDao.getGenre(genreId)
     }
 

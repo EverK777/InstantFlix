@@ -4,7 +4,6 @@ import androidx.room.ProvidedTypeConverter
 import androidx.room.TypeConverter
 import com.challenge.instantflix.core.data.model.RequestCategory
 import com.challenge.instantflix.core.data.model.TypeRequest
-import java.lang.NumberFormatException
 
 /**
  * Class that converts Classes to Classes that SQLITE supports
@@ -73,29 +72,25 @@ class DBConverters {
     }
 
     /**
-     * Converts a string value to a list of integers.
+     * Converts a string value to a list of string.
      *
      * @param value The string value to be converted.
-     * @return The corresponding list of integers.
+     * @return The corresponding list of strings.
      */
 
     @TypeConverter
-    fun fromStringToListInt(value: String): List<Int> {
-        return try {
-            value.split(",").map { it.trim().toInt() }
-        } catch (e: NumberFormatException) {
-            emptyList()
-        }
+    fun fromStringToListInt(value: String): List<String> {
+        return value.split(",").map { it.trim() }
     }
 
     /**
-     * Converts a list of integers to its corresponding string value.
+     * Converts a list of string to its corresponding string value.
      *
      * @param value The list of integers to be converted.
      * @return The corresponding string value.
      */
     @TypeConverter
-    fun fromListIntToString(value: List<Int>): String {
+    fun fromListIntToString(value: List<String>): String {
         return value.joinToString()
     }
 }

@@ -303,7 +303,7 @@ private fun getFakeMovieCached(
         title = "TestTitle",
         overview = "Test overview",
         popularity = 1.0,
-        genreIds = listOf(1, 2, 3),
+        genres = listOf("test", "test", "test"),
         voteAverage = 4.0,
         releaseDate = "10/12/2022",
         posterPath = "test",

@@ -55,6 +55,7 @@ class ByGenreRemoteMediator(
                 )
                 MediatorResult.Success(endOfPaginationReached = moviesSeriesByGenre.value.result.isEmpty())
             }
+
             is ApiResultHandle.ApiError -> MediatorResult.Error(ApiException())
             is ApiResultHandle.NetworkError -> MediatorResult.Error(NetworkError())
         }

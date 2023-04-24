@@ -17,6 +17,7 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import javax.inject.Qualifier
 import javax.inject.Singleton
 
 @ExperimentalPagingApi
@@ -24,6 +25,7 @@ import javax.inject.Singleton
 @InstallIn(SingletonComponent::class)
 object PagersMediatorsModule {
 
+    @TrendingMoviesAndTvShowsPager
     @Provides
     @Singleton
     fun providesTrendingMoviesAndTvShowsPager(
@@ -43,6 +45,7 @@ object PagersMediatorsModule {
         )
     }
 
+    @TrendingMoviesPager
     @Provides
     @Singleton
     fun providesTrendingMoviesPager(
@@ -65,6 +68,7 @@ object PagersMediatorsModule {
         )
     }
 
+    @TrendingTvShows
     @Provides
     @Singleton
     fun providesTrendingTvShowsPager(
@@ -87,6 +91,7 @@ object PagersMediatorsModule {
         )
     }
 
+    @PopularMovies
     @Provides
     @Singleton
     fun providesPopularMovies(
@@ -109,6 +114,7 @@ object PagersMediatorsModule {
         )
     }
 
+    @PopularTvShows
     @Provides
     @Singleton
     fun providesPopularTvShows(
@@ -131,6 +137,7 @@ object PagersMediatorsModule {
         )
     }
 
+    @TopRatedMovies
     @Provides
     @Singleton
     fun providesTopRatedMovies(
@@ -153,6 +160,7 @@ object PagersMediatorsModule {
         )
     }
 
+    @TopRatedTvShows
     @Provides
     @Singleton
     fun providesTopRatedTvShows(
@@ -175,6 +183,7 @@ object PagersMediatorsModule {
         )
     }
 
+    @ActionMovies
     @Provides
     @Singleton
     fun providesActionMovies(
@@ -198,6 +207,7 @@ object PagersMediatorsModule {
         )
     }
 
+    @ActionAdventureTvShows
     @Provides
     @Singleton
     fun providesActionAdventureTvShows(
@@ -221,6 +231,7 @@ object PagersMediatorsModule {
         )
     }
 
+    @ComedyMovie
     @Provides
     @Singleton
     fun providesComedyMovie(
@@ -244,6 +255,7 @@ object PagersMediatorsModule {
         )
     }
 
+    @ComedyTvShows
     @Provides
     @Singleton
     fun providesComedyTvShow(
@@ -267,3 +279,47 @@ object PagersMediatorsModule {
         )
     }
 }
+
+@Qualifier
+@Retention(AnnotationRetention.BINARY)
+annotation class TrendingMoviesAndTvShowsPager
+
+@Qualifier
+@Retention(AnnotationRetention.BINARY)
+annotation class TrendingMoviesPager
+
+@Qualifier
+@Retention(AnnotationRetention.BINARY)
+annotation class TrendingTvShows
+
+@Qualifier
+@Retention(AnnotationRetention.BINARY)
+annotation class PopularMovies
+
+@Qualifier
+@Retention(AnnotationRetention.BINARY)
+annotation class PopularTvShows
+
+@Qualifier
+@Retention(AnnotationRetention.BINARY)
+annotation class TopRatedMovies
+
+@Qualifier
+@Retention(AnnotationRetention.BINARY)
+annotation class TopRatedTvShows
+
+@Qualifier
+@Retention(AnnotationRetention.BINARY)
+annotation class ActionMovies
+
+@Qualifier
+@Retention(AnnotationRetention.BINARY)
+annotation class ActionAdventureTvShows
+
+@Qualifier
+@Retention(AnnotationRetention.BINARY)
+annotation class ComedyMovie
+
+@Qualifier
+@Retention(AnnotationRetention.BINARY)
+annotation class ComedyTvShows

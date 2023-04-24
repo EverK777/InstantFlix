@@ -81,7 +81,7 @@ interface MovieTVDao {
      * @return A [Genre] object representing the genre with the given ID.
      */
     @Query("SELECT * FROM genre where id = :genreId")
-    suspend fun getGenre(genreId: Int): Genre
+    suspend fun getGenre(genreId: Int): Genre?
 
     /**
      * This method deletes all data from the movietventity table in the local database.

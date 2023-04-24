@@ -34,13 +34,14 @@ fun MovieTv.toMovieTvEntity(
     typeRequest: TypeRequest,
     page: Int?,
     totalResult: Int?,
+    genres: List<String>,
 ): MovieTvEntity {
     return MovieTvEntity(
         id = id,
         title = title,
         overview = overview,
         popularity = popularity,
-        genreIds = genreIds,
+        genres = genres,
         voteAverage = voteAverage,
         releaseDate = releaseDate,
         posterPath = posterPath,
