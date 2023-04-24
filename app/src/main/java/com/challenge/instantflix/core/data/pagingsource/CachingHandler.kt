@@ -14,15 +14,20 @@ interface CachingHandler {
         requestCategory: RequestCategory,
         localDataRepository: LocalDataRepository,
     ) {
-        if (currentPage == 1) localDataRepository.clearByCategory(RequestCategory.POPULAR)
+        if (currentPage == 1) {
+            localDataRepository.clearByCategoryAndTypeRequest(
+                requestCategory = requestCategory,
+                typeRequest = typeRequest,
+            )
+        }
 
         val entities = moviesResponse.result.map { movieTv ->
             val genres = movieTv.genreIds.map {
                 localDataRepository.getGenre(it)?.name ?: ""
             }
             movieTv.toMovieTvEntity(
-                requestCategory = RequestCategory.POPULAR,
-                typeRequest = TypeRequest.MOVIE,
+                requestCategory = requestCategory,
+                typeRequest = typeRequest,
                 page = currentPage,
                 totalResult = moviesResponse.totalResults,
                 genres = genres,

@@ -34,7 +34,7 @@ fun ListPagerComposable(
             style = MaterialTheme.typography.titleMedium,
             textAlign = TextAlign.Center,
             fontWeight = FontWeight.W700,
-            modifier = Modifier.padding(start = 16.dp, top = 16.dp, bottom = 16.dp),
+            modifier = Modifier.padding(start = 16.dp, top = 16.dp, bottom = 8.dp),
         )
 
         LazyRow(

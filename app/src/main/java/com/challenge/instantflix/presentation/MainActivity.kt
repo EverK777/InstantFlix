@@ -28,9 +28,15 @@ class MainActivity : ComponentActivity() {
                     val viewModel = hiltViewModel<HomeViewModel>()
                     val trending = viewModel.trendingMoviesTvShowsFlow.collectAsStateWithLifecycle()
                     val popularMovies = viewModel.popularMoviesPagerFlow.collectAsLazyPagingItems()
+                    val popularTvShows = viewModel.popularTvShowsFlow.collectAsLazyPagingItems()
+                    val topRatedMovies = viewModel.topRatedMoviesFlow.collectAsLazyPagingItems()
+                    val topRatedTvShows = viewModel.topRatedTvShowsFlow.collectAsLazyPagingItems()
                     HomeScreen(
-                        popularMovies = popularMovies,
                         movieTvEntity = { trending.value },
+                        popularMovies = popularMovies,
+                        popularTvShows = popularTvShows,
+                        topRatedMovies = topRatedMovies,
+                        topRatedTvShows = topRatedTvShows,
                     )
                 }
             }

@@ -1,7 +1,7 @@
 package com.challenge.instantflix.presentation.ui.composables
 
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
@@ -38,7 +38,7 @@ fun ItemMovieTvShow(
             modifier = Modifier.width(176.15.dp).height(185.dp),
         ) {
             GlideImage(
-                modifier = Modifier.fillMaxSize(),
+                modifier = Modifier.fillMaxWidth().height(185.dp),
                 imageModel = movieTv.getImageBackDrop(),
                 contentScale = ContentScale.Crop,
                 shimmerParams = ShimmerParams(
@@ -58,6 +58,7 @@ fun ItemMovieTvShow(
             fontWeight = FontWeight.W700,
             maxLines = 1,
             overflow = TextOverflow.Ellipsis,
+            modifier = Modifier.padding(top = 8.dp),
         )
 
         Text(

@@ -41,10 +41,11 @@ interface MovieTVDao {
         typeRequest: String,
     ): PagingSource<Int, MovieTvEntity>
 
-    @Query("SELECT * FROM movietventity where requestCategory = :requestCategory AND typeRequest = :typeRequest")
+    @Query("SELECT * FROM movietventity where requestCategory = :requestCategory AND typeRequest = :typeRequest and page = :pageNumber")
     fun getMoviesOrTvShoesByCategoryAndTypeList(
         requestCategory: String,
         typeRequest: String,
+        pageNumber: Int,
     ): List<MovieTvEntity>
 
     /**
@@ -106,8 +107,8 @@ interface MovieTVDao {
     @Query("DELETE FROM movietventity")
     suspend fun clearAll()
 
-    @Query("DELETE FROM movietventity where requestCategory = :requestCategory")
-    suspend fun clearByCategory(requestCategory: String)
+    @Query("DELETE FROM movietventity where requestCategory = :requestCategory and typeRequest = :typeRequest")
+    suspend fun clearByCategoryAndType(requestCategory: String, typeRequest: String)
 
     // TODO: ADD TEST AND COMMENTS
     @Query("SELECT * from genre")

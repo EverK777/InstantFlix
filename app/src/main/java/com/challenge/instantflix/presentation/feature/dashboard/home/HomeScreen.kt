@@ -23,6 +23,9 @@ import com.challenge.instantflix.presentation.ui.composables.TrendingComposable
 fun HomeScreen(
     movieTvEntity: () -> MovieTvEntity?,
     popularMovies: LazyPagingItems<MovieTvEntity>,
+    popularTvShows: LazyPagingItems<MovieTvEntity>,
+    topRatedMovies: LazyPagingItems<MovieTvEntity>,
+    topRatedTvShows: LazyPagingItems<MovieTvEntity>,
 ) {
     ConstraintLayout(
         modifier = Modifier.fillMaxSize(),
@@ -46,6 +49,27 @@ fun HomeScreen(
                         ListPagerComposable(
                             title = stringResource(R.string.popular_movies),
                             pagingItems = popularMovies,
+                        )
+                    }
+
+                    item {
+                        ListPagerComposable(
+                            title = stringResource(R.string.popular_tv_shows),
+                            pagingItems = popularTvShows,
+                        )
+                    }
+
+                    item {
+                        ListPagerComposable(
+                            title = stringResource(R.string.top_rated_movie),
+                            pagingItems = topRatedMovies,
+                        )
+                    }
+
+                    item {
+                        ListPagerComposable(
+                            title = stringResource(R.string.top_rated_tv_shows),
+                            pagingItems = topRatedTvShows,
                         )
                     }
                 }

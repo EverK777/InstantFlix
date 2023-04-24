@@ -53,10 +53,12 @@ class InstantFlixDbRepository(
     override fun getMoviesOrTvShoesByCategoryAndTypeList(
         requestCategory: RequestCategory,
         typeRequest: TypeRequest,
+        pageNumber: Int,
     ): List<MovieTvEntity> {
         return movieTVDao.getMoviesOrTvShoesByCategoryAndTypeList(
             requestCategory = requestCategory.valueName,
             typeRequest = typeRequest.type,
+            pageNumber = pageNumber,
         )
     }
 
@@ -132,7 +134,10 @@ class InstantFlixDbRepository(
         movieTVDao.clearAll()
     }
 
-    override suspend fun clearByCategory(requestCategory: RequestCategory) {
-        movieTVDao.clearByCategory(requestCategory.valueName)
+    override suspend fun clearByCategoryAndTypeRequest(
+        requestCategory: RequestCategory,
+        typeRequest: TypeRequest,
+    ) {
+        movieTVDao.clearByCategoryAndType(requestCategory.valueName, typeRequest.type)
     }
 }

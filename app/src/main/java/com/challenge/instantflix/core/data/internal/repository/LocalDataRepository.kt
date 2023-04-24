@@ -22,6 +22,7 @@ interface LocalDataRepository {
     fun getMoviesOrTvShoesByCategoryAndTypeList(
         requestCategory: RequestCategory,
         typeRequest: TypeRequest,
+        pageNumber: Int,
     ): List<MovieTvEntity>
 
     fun getMoviesAndTvShowsByGenre(genreId: Int): PagingSource<Int, MovieTvEntity>
@@ -37,5 +38,8 @@ interface LocalDataRepository {
     suspend fun getGenres(): List<Genre>
     suspend fun getGenre(genreId: Int): Genre?
     suspend fun clearAll()
-    suspend fun clearByCategory(requestCategory: RequestCategory)
+    suspend fun clearByCategoryAndTypeRequest(
+        requestCategory: RequestCategory,
+        typeRequest: TypeRequest,
+    )
 }
