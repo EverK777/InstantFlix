@@ -23,6 +23,7 @@ class MovieTvTest {
         val typeRequest = TypeRequest.MOVIE
         val page = 1
         val totalResult = 100
+        val genres = listOf("test", "test", "test")
 
         val result = movieTv.toMovieTvEntity(
             genreIdRequest = genreIdRequest,
@@ -30,6 +31,7 @@ class MovieTvTest {
             typeRequest = typeRequest,
             page = page,
             totalResult = totalResult,
+            genres = listOf("test", "test", "test"),
         )
 
         assertNotNull(result)
@@ -37,7 +39,7 @@ class MovieTvTest {
         assertEquals(movieTv.title, result.title)
         assertEquals(movieTv.overview, result.overview)
         assertEquals(movieTv.popularity, result.popularity)
-        assertEquals(movieTv.genreIds, result.genreIds)
+        assertEquals(genres, result.genres)
         assertEquals(movieTv.voteAverage, result.voteAverage)
         assertEquals(movieTv.releaseDate, result.releaseDate)
         assertEquals(movieTv.posterPath, result.posterPath)

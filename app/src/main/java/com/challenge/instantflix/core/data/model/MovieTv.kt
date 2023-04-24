@@ -5,6 +5,7 @@ import com.google.gson.annotations.SerializedName
 data class MovieTv(
     val id: Int,
     val title: String?,
+    val name: String? = null,
     val overview: String?,
     val popularity: Double?,
     @SerializedName("genre_ids")
@@ -34,13 +35,14 @@ fun MovieTv.toMovieTvEntity(
     typeRequest: TypeRequest,
     page: Int?,
     totalResult: Int?,
+    genres: List<String>,
 ): MovieTvEntity {
     return MovieTvEntity(
         id = id,
-        title = title,
+        title = title ?: name,
         overview = overview,
         popularity = popularity,
-        genreIds = genreIds,
+        genres = genres,
         voteAverage = voteAverage,
         releaseDate = releaseDate,
         posterPath = posterPath,

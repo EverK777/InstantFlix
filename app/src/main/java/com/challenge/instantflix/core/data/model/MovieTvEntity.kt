@@ -9,7 +9,7 @@ data class MovieTvEntity(
     val title: String?,
     val overview: String?,
     val popularity: Double?,
-    val genreIds: List<Int>,
+    val genres: List<String>,
     val voteAverage: Double?,
     val releaseDate: String?,
     val posterPath: String?,
@@ -41,4 +41,10 @@ fun MovieTvEntity.getImageBackDrop(): String {
  */
 fun MovieTvEntity.getImagePoster(): String {
     return "https://www.themoviedb.org/t/p/w600_and_h900_bestv2${this.posterPath ?: ""}"
+}
+
+//TODO: ADD UNIT TEST
+fun MovieTvEntity.formatGenres(): String {
+    if (genres.isEmpty()) return ""
+    return genres.joinToString(separator = " \u25CF ")
 }

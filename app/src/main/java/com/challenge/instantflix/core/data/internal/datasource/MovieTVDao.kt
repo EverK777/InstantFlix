@@ -18,8 +18,15 @@ interface MovieTVDao {
      * @param requestCategory the category to filter the results by
      * @return a [PagingSource] for the requested list of [MovieTvEntity]
      */
+    // TODO: DELETE
     @Query("SELECT * FROM movietventity where requestCategory = :requestCategory")
     fun getMoviesAndTvShowsByCategory(requestCategory: String): PagingSource<Int, MovieTvEntity>
+
+    @Query("SELECT * FROM movietventity where requestCategory = :requestCategory and page = :pageNumber")
+    suspend fun getMoviesAndTvShowsByCategoryList(
+        requestCategory: String,
+        pageNumber: Int,
+    ): List<MovieTvEntity>
 
     /**
      * Returns a [PagingSource] for a list of [MovieTvEntity] objects that belong to a specific category and type (movie or TV show).
@@ -27,11 +34,19 @@ interface MovieTVDao {
      * @param typeRequest the type of request (movie or TV show) to filter the results by
      * @return a [PagingSource] for the requested list of [MovieTvEntity] objects
      */
+    // TODO: DELETE
     @Query("SELECT * FROM movietventity where requestCategory = :requestCategory AND typeRequest = :typeRequest")
     fun getMoviesOrTvShoesByCategoryAndType(
         requestCategory: String,
         typeRequest: String,
     ): PagingSource<Int, MovieTvEntity>
+
+    @Query("SELECT * FROM movietventity where requestCategory = :requestCategory AND typeRequest = :typeRequest and page = :pageNumber")
+    fun getMoviesOrTvShoesByCategoryAndTypeList(
+        requestCategory: String,
+        typeRequest: String,
+        pageNumber: Int,
+    ): List<MovieTvEntity>
 
     /**
      * Returns a [PagingSource] for a list of [MovieTvEntity] objects that belong to a specific genre.
@@ -62,12 +77,15 @@ interface MovieTVDao {
     suspend fun getMovieTvCached(id: Int): MovieTvEntity?
 
     /**
-     * Inserts or updates a [MovieTvEntity] object in the database.
-     * @param movieTvEntity the [MovieTvEntity] object to insert or update
+     * Inserts or updates a [MovieTvEntity] List in the database.
+     * @param movieTvEntities List of [MovieTvEntity] object to insert or update
      */
-    @Upsert
-    suspend fun upsertMovieOrTvCached(movieTvEntity: MovieTvEntity)
 
+    // TODO: FIX TEST
+    @Upsert
+    suspend fun upsertMovieOrTvCached(movieTvEntities: List<MovieTvEntity>)
+
+    // TODO: MOVE GENRE TO ANOTHER DAO
     /**
      * Inserts or updates a [Genre] object in the database.
      * @param genre the [Genre] object to insert or update
@@ -81,13 +99,16 @@ interface MovieTVDao {
      * @return A [Genre] object representing the genre with the given ID.
      */
     @Query("SELECT * FROM genre where id = :genreId")
-    suspend fun getGenre(genreId: Int): Genre
+    suspend fun getGenre(genreId: Int): Genre?
 
     /**
      * This method deletes all data from the movietventity table in the local database.
      */
     @Query("DELETE FROM movietventity")
     suspend fun clearAll()
+
+    @Query("DELETE FROM movietventity where requestCategory = :requestCategory and typeRequest = :typeRequest")
+    suspend fun clearByCategoryAndType(requestCategory: String, typeRequest: String)
 
     // TODO: ADD TEST AND COMMENTS
     @Query("SELECT * from genre")

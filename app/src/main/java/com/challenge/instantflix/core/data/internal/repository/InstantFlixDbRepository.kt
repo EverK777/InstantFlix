@@ -21,8 +21,16 @@ class InstantFlixDbRepository(
      *@param requestCategory the [RequestCategory] to filter the results by.
      *@return a [PagingSource] of [MovieTvEntity] objects that match the specified category.
      */
+    // TODO: DELETE
     override fun getMoviesAndTvShowsByCategory(requestCategory: RequestCategory): PagingSource<Int, MovieTvEntity> {
         return movieTVDao.getMoviesAndTvShowsByCategory(requestCategory.valueName)
+    }
+
+    override suspend fun getMoviesAndTvShowsByCategoryList(
+        requestCategory: RequestCategory,
+        pageNumber: Int,
+    ): List<MovieTvEntity> {
+        return movieTVDao.getMoviesAndTvShowsByCategoryList(requestCategory.valueName, pageNumber)
     }
 
     /**
@@ -31,6 +39,7 @@ class InstantFlixDbRepository(
      *@param typeRequest the [TypeRequest] to filter the results by.
      *@return a [PagingSource] of [MovieTvEntity] objects that match the specified category and type.
      */
+    // TODO: DELETE
     override fun getMoviesOrTvShoesByCategoryAndType(
         requestCategory: RequestCategory,
         typeRequest: TypeRequest,
@@ -38,6 +47,18 @@ class InstantFlixDbRepository(
         return movieTVDao.getMoviesOrTvShoesByCategoryAndType(
             requestCategory = requestCategory.valueName,
             typeRequest = typeRequest.type,
+        )
+    }
+
+    override fun getMoviesOrTvShoesByCategoryAndTypeList(
+        requestCategory: RequestCategory,
+        typeRequest: TypeRequest,
+        pageNumber: Int,
+    ): List<MovieTvEntity> {
+        return movieTVDao.getMoviesOrTvShoesByCategoryAndTypeList(
+            requestCategory = requestCategory.valueName,
+            typeRequest = typeRequest.type,
+            pageNumber = pageNumber,
         )
     }
 
@@ -67,11 +88,12 @@ class InstantFlixDbRepository(
     }
 
     /**
-     *Inserts or updates a [MovieTvEntity] object in the database.
-     *@param movieTvEntity the [MovieTvEntity] object to insert or update.
+     * Inserts or updates a [MovieTvEntity] List in the database.
+     * @param movieTvEntities List of [MovieTvEntity] object to insert or update
      */
-    override suspend fun upsertMovieOrTvCached(movieTvEntity: MovieTvEntity) {
-        movieTVDao.upsertMovieOrTvCached(movieTvEntity)
+    // TODO: FIX TEST
+    override suspend fun upsertMovieOrTvCached(movieTvEntities: List<MovieTvEntity>) {
+        movieTVDao.upsertMovieOrTvCached(movieTvEntities)
     }
 
     /**
@@ -96,7 +118,7 @@ class InstantFlixDbRepository(
      *@param genreId The ID of the [Genre] to retrieve.
      *@return The [Genre] with the given ID.
      */
-    override suspend fun getGenre(genreId: Int): Genre {
+    override suspend fun getGenre(genreId: Int): Genre? {
         return movieTVDao.getGenre(genreId)
     }
 
@@ -110,5 +132,12 @@ class InstantFlixDbRepository(
      */
     override suspend fun clearAll() {
         movieTVDao.clearAll()
+    }
+
+    override suspend fun clearByCategoryAndTypeRequest(
+        requestCategory: RequestCategory,
+        typeRequest: TypeRequest,
+    ) {
+        movieTVDao.clearByCategoryAndType(requestCategory.valueName, typeRequest.type)
     }
 }

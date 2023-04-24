@@ -1,34 +1,37 @@
-package com.challenge.instantflix.core.data.external.mediators
+package com.challenge.instantflix.core.data.pagingsource
 
-import androidx.paging.LoadType
 import com.challenge.instantflix.core.data.internal.repository.LocalDataRepository
 import com.challenge.instantflix.core.data.model.MovieTvResponse
 import com.challenge.instantflix.core.data.model.RequestCategory
 import com.challenge.instantflix.core.data.model.TypeRequest
 import com.challenge.instantflix.core.data.model.toMovieTvEntity
 
-interface CachingMediator {
+interface CachingHandler {
     suspend fun saveDataToCache(
-        value: MovieTvResponse,
-        loadType: LoadType,
+        moviesResponse: MovieTvResponse,
+        currentPage: Int,
         typeRequest: TypeRequest,
         requestCategory: RequestCategory,
         localDataRepository: LocalDataRepository,
     ) {
-        val entities = value.result.map { movieTv ->
+        if (currentPage == 1) {
+            localDataRepository.clearByCategoryAndTypeRequest(
+                requestCategory = requestCategory,
+                typeRequest = typeRequest,
+            )
+        }
+
+        val entities = moviesResponse.result.map { movieTv ->
             val genres = movieTv.genreIds.map {
                 localDataRepository.getGenre(it)?.name ?: ""
             }
             movieTv.toMovieTvEntity(
                 requestCategory = requestCategory,
                 typeRequest = typeRequest,
-                page = value.page,
-                totalResult = value.totalResults,
+                page = currentPage,
+                totalResult = moviesResponse.totalResults,
                 genres = genres,
             )
-        }
-        if (loadType == LoadType.REFRESH) {
-            localDataRepository.clearAll()
         }
         localDataRepository.upsertMovieOrTvCached(entities)
     }

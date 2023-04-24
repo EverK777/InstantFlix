@@ -7,6 +7,7 @@ import androidx.paging.RemoteMediator
 import com.challenge.instantflix.core.data.external.repository.RemoteRepository
 import com.challenge.instantflix.core.data.internal.repository.LocalDataRepository
 import com.challenge.instantflix.core.data.model.MovieTvEntity
+import com.challenge.instantflix.core.data.model.RequestCategory
 import com.challenge.instantflix.core.data.model.TypeRequest
 import com.challenge.instantflix.core.exception.ApiException
 import com.challenge.instantflix.core.exception.NetworkError
@@ -56,6 +57,7 @@ class TopRatedRemoteMediator(
                     loadType = loadType,
                     typeRequest = typeRequest,
                     localDataRepository = localDataRepository,
+                    requestCategory = RequestCategory.TOP_RATED,
                 )
                 MediatorResult.Success(endOfPaginationReached = topRatedMovies.value.result.isEmpty())
             }

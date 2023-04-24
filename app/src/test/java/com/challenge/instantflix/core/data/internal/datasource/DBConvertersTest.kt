@@ -101,32 +101,27 @@ class DBConvertersTest {
 
     @Test
     fun testFromStringToListInt_singleValue() {
-        val result = dbConverters.fromStringToListInt("10")
-        assertEquals(listOf(10), result)
+        val result = dbConverters.fromStringToListInt("test")
+        assertEquals(listOf("test"), result)
     }
 
     @Test
     fun testFromStringToListInt_multipleValues() {
-        val result = dbConverters.fromStringToListInt("10, 20, 30, 40, 50")
-        assertEquals(listOf(10, 20, 30, 40, 50), result)
-    }
-
-    @Test
-    fun testFromStringToListInt_invalidValue() {
-        val result = dbConverters.fromStringToListInt("10, 20, 30, abc, 50")
-        assertEquals(emptyList<Int>(), result)
+        val result = dbConverters.fromStringToListInt("test1, test2, test3, test4, test5")
+        assertEquals(listOf("test1", "test2", "test3", "test4", "test5"), result)
     }
 
     @Test
     fun testFromListIntToString_singleValue() {
-        val result = dbConverters.fromListIntToString(listOf(10))
-        assertEquals("10", result)
+        val result = dbConverters.fromListIntToString(listOf("test"))
+        assertEquals("test", result)
     }
 
     @Test
     fun testFromListIntToString_multipleValues() {
-        val result = dbConverters.fromListIntToString(listOf(10, 20, 30, 40, 50))
-        assertEquals("10, 20, 30, 40, 50", result)
+        val result =
+            dbConverters.fromListIntToString(listOf("test1", "test2", "test3", "test4", "test5"))
+        assertEquals("test1, test2, test3, test4, test5", result)
     }
 
     @Test
