@@ -18,8 +18,15 @@ interface MovieTVDao {
      * @param requestCategory the category to filter the results by
      * @return a [PagingSource] for the requested list of [MovieTvEntity]
      */
-    @Query("SELECT * FROM movietventity")
+    // TODO: DELETE
+    @Query("SELECT * FROM movietventity where requestCategory = :requestCategory")
     fun getMoviesAndTvShowsByCategory(requestCategory: String): PagingSource<Int, MovieTvEntity>
+
+    @Query("SELECT * FROM movietventity where requestCategory = :requestCategory and page = :pageNumber")
+    suspend fun getMoviesAndTvShowsByCategoryList(
+        requestCategory: String,
+        pageNumber: Int,
+    ): List<MovieTvEntity>
 
     /**
      * Returns a [PagingSource] for a list of [MovieTvEntity] objects that belong to a specific category and type (movie or TV show).
@@ -27,11 +34,18 @@ interface MovieTVDao {
      * @param typeRequest the type of request (movie or TV show) to filter the results by
      * @return a [PagingSource] for the requested list of [MovieTvEntity] objects
      */
+    // TODO: DELETE
     @Query("SELECT * FROM movietventity where requestCategory = :requestCategory AND typeRequest = :typeRequest")
     fun getMoviesOrTvShoesByCategoryAndType(
         requestCategory: String,
         typeRequest: String,
     ): PagingSource<Int, MovieTvEntity>
+
+    @Query("SELECT * FROM movietventity where requestCategory = :requestCategory AND typeRequest = :typeRequest")
+    fun getMoviesOrTvShoesByCategoryAndTypeList(
+        requestCategory: String,
+        typeRequest: String,
+    ): List<MovieTvEntity>
 
     /**
      * Returns a [PagingSource] for a list of [MovieTvEntity] objects that belong to a specific genre.
@@ -70,6 +84,7 @@ interface MovieTVDao {
     @Upsert
     suspend fun upsertMovieOrTvCached(movieTvEntities: List<MovieTvEntity>)
 
+    // TODO: MOVE GENRE TO ANOTHER DAO
     /**
      * Inserts or updates a [Genre] object in the database.
      * @param genre the [Genre] object to insert or update
@@ -90,6 +105,9 @@ interface MovieTVDao {
      */
     @Query("DELETE FROM movietventity")
     suspend fun clearAll()
+
+    @Query("DELETE FROM movietventity where requestCategory = :requestCategory")
+    suspend fun clearByCategory(requestCategory: String)
 
     // TODO: ADD TEST AND COMMENTS
     @Query("SELECT * from genre")

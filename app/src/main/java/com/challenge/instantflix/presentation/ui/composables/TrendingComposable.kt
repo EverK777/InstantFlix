@@ -12,9 +12,6 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalConfiguration
@@ -24,7 +21,6 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
-import androidx.paging.compose.LazyPagingItems
 import com.challenge.instantflix.R
 import com.challenge.instantflix.core.data.model.MovieTvEntity
 import com.challenge.instantflix.core.data.model.formatGenres
@@ -32,22 +28,12 @@ import com.challenge.instantflix.core.data.model.getImagePoster
 
 @Composable
 fun TrendingComposable(
-    trendingMoviesAndTvShows: LazyPagingItems<MovieTvEntity>,
+    item: () -> MovieTvEntity?,
 ) {
-    val items = trendingMoviesAndTvShows.itemSnapshotList.items
     val configuration = LocalConfiguration.current
     val screenHeight = configuration.screenHeightDp.dp.value * 0.75
-    val item = remember {
-        mutableStateOf<MovieTvEntity?>(null)
-    }
 
-    LaunchedEffect(items) {
-        if (items.isNotEmpty()) {
-            item.value = items.maxBy { it.popularity ?: 0.0 }
-        }
-    }
-
-    if (item.value != null) {
+    if (item.invoke() != null) {
         ConstraintLayout(
             modifier = Modifier.fillMaxWidth().height(screenHeight.dp),
         ) {
@@ -62,7 +48,7 @@ fun TrendingComposable(
                     .height(screenHeight.dp),
             ) {
                 PosterImageComposable(
-                    posterPath = item.value!!.getImagePoster(),
+                    posterPath = item.invoke()?.getImagePoster() ?: "",
                     Modifier.fillMaxSize(),
                 )
                 BottomGradientComposable(
@@ -81,7 +67,7 @@ fun TrendingComposable(
                 horizontalAlignment = Alignment.CenterHorizontally,
             ) {
                 Text(
-                    text = item.value!!.title ?: "",
+                    text = item.invoke()?.title ?: "",
                     color = MaterialTheme.colorScheme.onPrimary,
                     style = MaterialTheme.typography.headlineLarge,
                     textAlign = TextAlign.Center,
@@ -89,7 +75,7 @@ fun TrendingComposable(
                 )
 
                 Text(
-                    text = item.value!!.formatGenres(),
+                    text = item.invoke()?.formatGenres() ?: "",
                     color = MaterialTheme.colorScheme.onPrimary,
                     style = MaterialTheme.typography.labelSmall,
                     textAlign = TextAlign.Center,

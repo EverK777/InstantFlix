@@ -8,6 +8,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.paging.compose.collectAsLazyPagingItems
 import com.challenge.instantflix.presentation.feature.dashboard.home.HomeScreen
 import com.challenge.instantflix.presentation.feature.dashboard.home.HomeViewModel
@@ -25,11 +26,11 @@ class MainActivity : ComponentActivity() {
                     color = MaterialTheme.colorScheme.background,
                 ) {
                     val viewModel = hiltViewModel<HomeViewModel>()
-                    val trending = viewModel.trendingMoviesTvShowsPagerFlow.collectAsLazyPagingItems()
+                    val trending = viewModel.trendingMoviesTvShowsFlow.collectAsStateWithLifecycle()
                     val popularMovies = viewModel.popularMoviesPagerFlow.collectAsLazyPagingItems()
                     HomeScreen(
-                        trendingMoviesAndTvShows = trending,
                         popularMovies = popularMovies,
+                        movieTvEntity = { trending.value },
                     )
                 }
             }

@@ -12,6 +12,7 @@ import com.challenge.instantflix.core.data.internal.repository.LocalDataReposito
 import com.challenge.instantflix.core.data.model.MovieTvEntity
 import com.challenge.instantflix.core.data.model.RequestCategory
 import com.challenge.instantflix.core.data.model.TypeRequest
+import com.challenge.instantflix.core.data.pagingsource.PopularPagingSource
 import com.challenge.instantflix.core.utils.GenresCode
 import dagger.Module
 import dagger.Provides
@@ -98,18 +99,15 @@ object PagersMediatorsModule {
         localDataRepository: LocalDataRepository,
         remoteRepository: RemoteRepository,
     ): Pager<Int, MovieTvEntity> {
+        val pagingSource = PopularPagingSource(
+            localDataRepository = localDataRepository,
+            remoteRepository = remoteRepository,
+            TypeRequest.MOVIE,
+        )
         return Pager(
             config = PagingConfig(pageSize = 20),
-            remoteMediator = PopularRemoteMediator(
-                localDataRepository = localDataRepository,
-                remoteRepository = remoteRepository,
-                typeRequest = TypeRequest.MOVIE,
-            ),
             pagingSourceFactory = {
-                localDataRepository.getMoviesOrTvShoesByCategoryAndType(
-                    requestCategory = RequestCategory.POPULAR,
-                    typeRequest = TypeRequest.MOVIE,
-                )
+                pagingSource
             },
         )
     }

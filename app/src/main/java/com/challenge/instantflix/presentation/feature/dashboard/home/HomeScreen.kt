@@ -21,7 +21,7 @@ import com.challenge.instantflix.presentation.ui.composables.TrendingComposable
 
 @Composable
 fun HomeScreen(
-    trendingMoviesAndTvShows: LazyPagingItems<MovieTvEntity>,
+    movieTvEntity: () -> MovieTvEntity?,
     popularMovies: LazyPagingItems<MovieTvEntity>,
 ) {
     ConstraintLayout(
@@ -40,7 +40,7 @@ fun HomeScreen(
             content = {
                 LazyColumn(modifier = Modifier.padding(it)) {
                     item {
-                        TrendingComposable(trendingMoviesAndTvShows = trendingMoviesAndTvShows)
+                        TrendingComposable(movieTvEntity)
                     }
                     item {
                         ListPagerComposable(
