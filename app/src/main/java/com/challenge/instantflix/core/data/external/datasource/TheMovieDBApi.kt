@@ -31,7 +31,7 @@ interface TheMovieDBApi {
         @Query("with_genres") genreId: Int,
     ): MovieTvResponse
 
-    @GET("genre/{type}")
+    @GET("genre/{type}/list")
     suspend fun requestGenre(
         @Path("type") type: String,
     ): GenreResponse
