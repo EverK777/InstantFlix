@@ -6,7 +6,6 @@ import com.challenge.instantflix.core.data.model.Genre
 import com.challenge.instantflix.core.data.model.TypeRequest
 import com.challenge.instantflix.core.utils.ApiResultHandle
 
-// TODO: ADD UNIT TEST
 class GenresHandlerUseCaseImpl(
     private val localDataRepository: LocalDataRepository,
     private val remoteRepository: RemoteRepository,

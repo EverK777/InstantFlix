@@ -1,7 +1,6 @@
 package com.challenge.instantflix.core.data.internal.datasource
 
 import android.content.Context
-import androidx.paging.PagingSource
 import androidx.room.Room
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
@@ -21,6 +20,7 @@ import org.junit.runner.RunWith
 class RoomDbTest {
 
     private lateinit var movieTVDao: MovieTVDao
+    private lateinit var genreDao: GenreDao
     private lateinit var db: InstantFlixDB
 
     @Before
@@ -30,6 +30,7 @@ class RoomDbTest {
             .addTypeConverter(DBConverters())
             .build()
         movieTVDao = db.movieTBDao()
+        genreDao = db.genreDao()
     }
 
     @After
@@ -50,59 +51,18 @@ class RoomDbTest {
     }
 
     @Test
-    fun when_getMoviesOrTvShowsByCategory_then_return_list_of_moviesAndTvShows(): Unit =
+    fun when_getMoviesOrTvShoesByCategoryAndTypeList_then_return_list_of_moviesByCategory(): Unit =
         runBlocking {
             insertTrendingFakeMoviesAndSeries(RequestCategory.TRENDING)
 
-            val pagingSource =
-                movieTVDao.getMoviesAndTvShowsByCategory(RequestCategory.TRENDING.valueName)
-
-            val loadResult = pagingSource.load(
-                PagingSource.LoadParams.Refresh(
-                    key = 1,
-                    loadSize = 20,
-                    placeholdersEnabled = false,
-                ),
+            val data = movieTVDao.getMoviesOrTvShoesByCategoryAndTypeList(
+                requestCategory = RequestCategory.TRENDING.valueName,
+                typeRequest = TypeRequest.MOVIE.type,
+                1,
             )
-
-            val loadResultData = (loadResult as? PagingSource.LoadResult.Page)!!.data
-
-            assertTrue(loadResultData.isNotEmpty())
 
             assertTrue(
-                loadResultData.all { it.requestCategory == RequestCategory.TRENDING },
-            )
-
-            val numberOfMovies = loadResultData.count { it.typeRequest == TypeRequest.MOVIE }
-            val numberOfTvShows = loadResultData.count { it.typeRequest == TypeRequest.TV_SHOW }
-
-            assertEquals(numberOfTvShows, 4)
-            assertEquals(numberOfMovies, 4)
-        }
-
-    @Test
-    fun when_getMoviesByCategory_then_return_list_of_moviesAndTvShows(): Unit =
-        runBlocking {
-            insertTrendingFakeMoviesAndSeries(RequestCategory.TRENDING)
-
-            val pagingSource =
-                movieTVDao.getMoviesOrTvShoesByCategoryAndType(
-                    requestCategory = RequestCategory.TRENDING.valueName,
-                    typeRequest = TypeRequest.MOVIE.type,
-                )
-
-            val loadResult = pagingSource.load(
-                PagingSource.LoadParams.Refresh(
-                    key = 1,
-                    loadSize = 10,
-                    placeholdersEnabled = false,
-                ),
-            )
-
-            val loadResultData = (loadResult as? PagingSource.LoadResult.Page)!!.data
-
-            assertTrue(
-                loadResultData.all {
+                data.all {
                     it.requestCategory == RequestCategory.TRENDING &&
                         it.typeRequest == TypeRequest.MOVIE
                 },
@@ -110,125 +70,23 @@ class RoomDbTest {
         }
 
     @Test
-    fun when_getTvShowsByCategory_then_return_list_of_moviesAndTvShows(): Unit =
+    fun when_getTvShowsByCategory_then_return_list_of_tvShowsByCategory(): Unit =
         runBlocking {
             insertTrendingFakeMoviesAndSeries(
                 requestCategory = RequestCategory.TRENDING,
                 genreIdRequested = 1,
             )
 
-            val pagingSource =
-                movieTVDao.getMoviesOrTvShoesByCategoryAndType(
-                    requestCategory = RequestCategory.TRENDING.valueName,
-                    typeRequest = TypeRequest.TV_SHOW.type,
-                )
-
-            val loadResult = pagingSource.load(
-                PagingSource.LoadParams.Refresh(
-                    key = 1,
-                    loadSize = 10,
-                    placeholdersEnabled = false,
-                ),
+            val data = movieTVDao.getMoviesOrTvShoesByCategoryAndTypeList(
+                requestCategory = RequestCategory.TRENDING.valueName,
+                typeRequest = TypeRequest.TV_SHOW.type,
+                1,
             )
 
-            val loadResultData = (loadResult as? PagingSource.LoadResult.Page)!!.data
-
             assertTrue(
-                loadResultData.all {
+                data.all {
                     it.requestCategory == RequestCategory.TRENDING &&
                         it.typeRequest == TypeRequest.TV_SHOW
-                },
-            )
-        }
-
-    @Test
-    fun when_getMoviesAndTvShowsByGenre_then_return_list_of_moviesAndTvShowsByGenre(): Unit =
-        runBlocking {
-            insertTrendingFakeMoviesAndSeries(
-                requestCategory = RequestCategory.TRENDING,
-                genreIdRequested = 1,
-            )
-
-            val pagingSource =
-                movieTVDao.getMoviesAndTvShowsByGenre(
-                    genreId = 1,
-                )
-
-            val loadResult = pagingSource.load(
-                PagingSource.LoadParams.Refresh(
-                    key = 1,
-                    loadSize = 10,
-                    placeholdersEnabled = false,
-                ),
-            )
-
-            val loadResultData = (loadResult as? PagingSource.LoadResult.Page)!!.data
-
-            assertTrue(
-                loadResultData.all {
-                    it.genreIdRequested == 1
-                },
-            )
-        }
-
-    @Test
-    fun when_getMoviesByGenre_then_return_list_of_moviesAndTvShowsByGenre(): Unit =
-        runBlocking {
-            insertTrendingFakeMoviesAndSeries(
-                requestCategory = RequestCategory.TRENDING,
-                genreIdRequested = 1,
-            )
-
-            val pagingSource =
-                movieTVDao.getMoviesOrTvShowsByGenreAndType(
-                    genreId = 1,
-                    typeRequest = TypeRequest.MOVIE.type,
-                )
-
-            val loadResult = pagingSource.load(
-                PagingSource.LoadParams.Refresh(
-                    key = 1,
-                    loadSize = 10,
-                    placeholdersEnabled = false,
-                ),
-            )
-
-            val loadResultData = (loadResult as? PagingSource.LoadResult.Page)!!.data
-
-            assertTrue(
-                loadResultData.all {
-                    it.genreIdRequested == 1 && it.typeRequest == TypeRequest.MOVIE
-                },
-            )
-        }
-
-    @Test
-    fun when_getTvShowsByGenre_then_return_list_of_moviesAndTvShowsByGenre(): Unit =
-        runBlocking {
-            insertTrendingFakeMoviesAndSeries(
-                requestCategory = RequestCategory.TRENDING,
-                genreIdRequested = 1,
-            )
-
-            val pagingSource =
-                movieTVDao.getMoviesOrTvShowsByGenreAndType(
-                    genreId = 1,
-                    typeRequest = TypeRequest.TV_SHOW.type,
-                )
-
-            val loadResult = pagingSource.load(
-                PagingSource.LoadParams.Refresh(
-                    key = 1,
-                    loadSize = 10,
-                    placeholdersEnabled = false,
-                ),
-            )
-
-            val loadResultData = (loadResult as? PagingSource.LoadResult.Page)!!.data
-
-            assertTrue(
-                loadResultData.all {
-                    it.genreIdRequested == 1 && it.typeRequest == TypeRequest.TV_SHOW
                 },
             )
         }
@@ -239,8 +97,8 @@ class RoomDbTest {
             id = 1,
             name = "test",
         )
-        movieTVDao.upsertGenre(genre)
-        val result = movieTVDao.getGenre(1)
+        genreDao.upsertGenre(genre)
+        val result = genreDao.getGenre(1)
         assertEquals(result, genre)
     }
 
@@ -250,20 +108,18 @@ class RoomDbTest {
             requestCategory = RequestCategory.TRENDING,
         )
 
-        movieTVDao.clearAll()
-
-        val pagingSource =
-            movieTVDao.getMoviesAndTvShowsByCategory(RequestCategory.TRENDING.valueName)
-
-        val loadResult = pagingSource.load(
-            PagingSource.LoadParams.Refresh(
-                key = 1,
-                loadSize = 20,
-                placeholdersEnabled = false,
-            ),
+        movieTVDao.clearByCategoryAndType(
+            requestCategory = RequestCategory.TRENDING.valueName,
+            typeRequest = TypeRequest.TV_SHOW.type,
         )
-        val loadResultData = (loadResult as? PagingSource.LoadResult.Page)!!.data
-        assertTrue(loadResultData.isEmpty())
+
+        val data = movieTVDao.getMoviesOrTvShoesByCategoryAndTypeList(
+            requestCategory = RequestCategory.TRENDING.valueName,
+            typeRequest = TypeRequest.TV_SHOW.type,
+            pageNumber = 1,
+        )
+
+        assertTrue(data.isEmpty())
     }
 
     private suspend fun insertTrendingFakeMoviesAndSeries(

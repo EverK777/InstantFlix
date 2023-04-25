@@ -3,6 +3,7 @@ package com.challenge.instantflix.core.di
 import android.content.Context
 import androidx.room.Room
 import com.challenge.instantflix.core.data.internal.datasource.DBConverters
+import com.challenge.instantflix.core.data.internal.datasource.GenreDao
 import com.challenge.instantflix.core.data.internal.datasource.InstantFlixDB
 import com.challenge.instantflix.core.data.internal.datasource.MovieTVDao
 import dagger.Module
@@ -32,5 +33,11 @@ object LocalDataSourceModule {
     @Singleton
     fun providesMovieTVDao(instantFlixDB: InstantFlixDB): MovieTVDao {
         return instantFlixDB.movieTBDao()
+    }
+
+    @Provides
+    @Singleton
+    fun providesGenreDao(instantFlixDB: InstantFlixDB): GenreDao {
+        return instantFlixDB.genreDao()
     }
 }

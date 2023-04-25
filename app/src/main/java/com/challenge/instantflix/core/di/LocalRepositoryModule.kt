@@ -1,5 +1,6 @@
 package com.challenge.instantflix.core.di
 
+import com.challenge.instantflix.core.data.internal.datasource.GenreDao
 import com.challenge.instantflix.core.data.internal.datasource.MovieTVDao
 import com.challenge.instantflix.core.data.internal.repository.InstantFlixDbRepository
 import com.challenge.instantflix.core.data.internal.repository.LocalDataRepository
@@ -17,7 +18,8 @@ object LocalRepositoryModule {
     @Singleton
     fun providesLocalRepository(
         movieTVDao: MovieTVDao,
+        genreDao: GenreDao,
     ): LocalDataRepository {
-        return InstantFlixDbRepository(movieTVDao)
+        return InstantFlixDbRepository(movieTVDao, genreDao)
     }
 }
