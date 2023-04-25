@@ -33,7 +33,7 @@ import com.challenge.instantflix.core.utils.TestTags.POSTER_GENRES_TAG
 @Composable
 fun TrendingComposable(
     item: () -> MovieTvEntity?,
-    onItemClick: (MovieTvEntity) -> Unit,
+    onItemClick: () -> Unit,
 ) {
     val configuration = LocalConfiguration.current
     val heightPoster = configuration.screenHeightDp.dp.value * 0.75
@@ -87,7 +87,7 @@ fun TrendingComposable(
                         interactionSource = interactionSource,
                         indication = null,
                     ) {
-                        item.invoke()?.let(onItemClick)
+                        onItemClick.invoke()
                     },
                 ) {
                     Icon(

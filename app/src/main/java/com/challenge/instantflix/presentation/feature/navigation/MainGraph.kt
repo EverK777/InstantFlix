@@ -39,7 +39,7 @@ fun MainGraph() {
                         val topRatedTvShows = viewModel.topRatedTvShowsFlow
 
                         HomeScreen(
-                            movieTvEntity = { trending.value },
+                            movieTvEntity = trending,
                             popularMovies = popularMovies,
                             popularTvShows = popularTvShows,
                             topRatedMovies = topRatedMovies,
