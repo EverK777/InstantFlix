@@ -29,6 +29,9 @@ The architecture of this project follows the concepts of an architecture and imp
 <li>presentation
 </ul>
 
+## Testing
+The project contains Unit test and Ui test with espresso
+
 ## Caching
 For cache management, ROOM was used as Data Source
 
