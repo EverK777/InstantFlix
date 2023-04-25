@@ -6,4 +6,6 @@
     <string name="popular_tv_shows">Popular tv shows</string>
     <string name="top_rated_movie">Top rated movies</string>
     <string name="top_rated_tv_shows">Top rated tv shows</string>
+    <string name="tv_shows">TV SHOW</string>
+    <string name="movie">MOVIE</string>
 </resources>

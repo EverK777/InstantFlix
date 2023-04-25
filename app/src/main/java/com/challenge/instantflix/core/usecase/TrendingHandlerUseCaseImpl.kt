@@ -13,7 +13,7 @@ class TrendingHandlerUseCaseImpl(
     private val remoteRepository: RemoteRepository,
 ) : TrendingHandlerUseCase {
 
-    override suspend fun getTrendingMovieTvShow(typeRequest: TypeRequest): MovieTvEntity {
+    override suspend fun getTrendingMovieTvShow(typeRequest: TypeRequest): MovieTvEntity? {
         val trendingMovies = remoteRepository.requestTrendingMoviesSeries(typeRequest)
         if (trendingMovies is ApiResultHandle.Success) {
             val movieEntity = trendingMovies.value.result.map { movieTv ->
@@ -41,7 +41,7 @@ class TrendingHandlerUseCaseImpl(
             typeRequest = TypeRequest.ALL,
             pageNumber = 1,
         )
-
+        if (cachedEntity.isEmpty()) return null
         return cachedEntity.maxBy { it.popularity ?: 0.0 }
     }
 }

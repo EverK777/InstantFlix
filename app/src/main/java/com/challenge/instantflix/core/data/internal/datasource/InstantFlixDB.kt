@@ -18,4 +18,5 @@ import com.challenge.instantflix.core.data.model.MovieTvEntity
 @TypeConverters(DBConverters::class)
 abstract class InstantFlixDB : RoomDatabase() {
     abstract fun movieTBDao(): MovieTVDao
+    abstract fun genreDao(): GenreDao
 }

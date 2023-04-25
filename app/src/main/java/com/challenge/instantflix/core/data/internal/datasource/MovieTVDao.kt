@@ -1,10 +1,8 @@
 package com.challenge.instantflix.core.data.internal.datasource
 
-import androidx.paging.PagingSource
 import androidx.room.Dao
 import androidx.room.Query
 import androidx.room.Upsert
-import com.challenge.instantflix.core.data.model.Genre
 import com.challenge.instantflix.core.data.model.MovieTvEntity
 
 /**
@@ -13,60 +11,12 @@ import com.challenge.instantflix.core.data.model.MovieTvEntity
 @Dao
 interface MovieTVDao {
 
-    /**
-     * Returns a [PagingSource] for a list of [MovieTvEntity]  that belong to a specific category.
-     * @param requestCategory the category to filter the results by
-     * @return a [PagingSource] for the requested list of [MovieTvEntity]
-     */
-    // TODO: DELETE
-    @Query("SELECT * FROM movietventity where requestCategory = :requestCategory")
-    fun getMoviesAndTvShowsByCategory(requestCategory: String): PagingSource<Int, MovieTvEntity>
-
-    @Query("SELECT * FROM movietventity where requestCategory = :requestCategory and page = :pageNumber")
-    suspend fun getMoviesAndTvShowsByCategoryList(
-        requestCategory: String,
-        pageNumber: Int,
-    ): List<MovieTvEntity>
-
-    /**
-     * Returns a [PagingSource] for a list of [MovieTvEntity] objects that belong to a specific category and type (movie or TV show).
-     * @param requestCategory the category to filter the results by
-     * @param typeRequest the type of request (movie or TV show) to filter the results by
-     * @return a [PagingSource] for the requested list of [MovieTvEntity] objects
-     */
-    // TODO: DELETE
-    @Query("SELECT * FROM movietventity where requestCategory = :requestCategory AND typeRequest = :typeRequest")
-    fun getMoviesOrTvShoesByCategoryAndType(
-        requestCategory: String,
-        typeRequest: String,
-    ): PagingSource<Int, MovieTvEntity>
-
     @Query("SELECT * FROM movietventity where requestCategory = :requestCategory AND typeRequest = :typeRequest and page = :pageNumber")
     fun getMoviesOrTvShoesByCategoryAndTypeList(
         requestCategory: String,
         typeRequest: String,
         pageNumber: Int,
     ): List<MovieTvEntity>
-
-    /**
-     * Returns a [PagingSource] for a list of [MovieTvEntity] objects that belong to a specific genre.
-     * @param genreId the genre ID to filter the results by
-     * @return a [PagingSource] for the requested list of [MovieTvEntity] objects
-     */
-    @Query("SELECT * FROM movietventity where genreIdRequested = :genreId")
-    fun getMoviesAndTvShowsByGenre(genreId: Int): PagingSource<Int, MovieTvEntity>
-
-    /**
-     * Returns a [PagingSource] for a list of [MovieTvEntity] objects that belong to a specific genre and type (movie or TV show).
-     * @param genreId the genre ID to filter the results by
-     * @param typeRequest the type of request (movie or TV show) to filter the results by
-     * @return a [PagingSource] for the requested list of [MovieTvEntity] objects
-     */
-    @Query("SELECT * FROM movietventity where genreIdRequested = :genreId AND typeRequest = :typeRequest")
-    fun getMoviesOrTvShowsByGenreAndType(
-        genreId: Int,
-        typeRequest: String,
-    ): PagingSource<Int, MovieTvEntity>
 
     /**
      * Returns a [MovieTvEntity] object with the specified ID.
@@ -81,36 +31,9 @@ interface MovieTVDao {
      * @param movieTvEntities List of [MovieTvEntity] object to insert or update
      */
 
-    // TODO: FIX TEST
     @Upsert
     suspend fun upsertMovieOrTvCached(movieTvEntities: List<MovieTvEntity>)
 
-    // TODO: MOVE GENRE TO ANOTHER DAO
-    /**
-     * Inserts or updates a [Genre] object in the database.
-     * @param genre the [Genre] object to insert or update
-     */
-    @Upsert
-    suspend fun upsertGenre(genre: Genre)
-
-    /**
-     * Retrieves a [Genre] from the local database with the given genre ID.
-     * @param genreId The ID of the genre to retrieve.
-     * @return A [Genre] object representing the genre with the given ID.
-     */
-    @Query("SELECT * FROM genre where id = :genreId")
-    suspend fun getGenre(genreId: Int): Genre?
-
-    /**
-     * This method deletes all data from the movietventity table in the local database.
-     */
-    @Query("DELETE FROM movietventity")
-    suspend fun clearAll()
-
     @Query("DELETE FROM movietventity where requestCategory = :requestCategory and typeRequest = :typeRequest")
     suspend fun clearByCategoryAndType(requestCategory: String, typeRequest: String)
-
-    // TODO: ADD TEST AND COMMENTS
-    @Query("SELECT * from genre")
-    suspend fun genres(): List<Genre>
 }
