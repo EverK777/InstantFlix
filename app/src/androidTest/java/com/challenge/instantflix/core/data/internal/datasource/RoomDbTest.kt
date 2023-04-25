@@ -44,7 +44,7 @@ class RoomDbTest {
             requestCategory = RequestCategory.TRENDING,
             typeRequest = TypeRequest.MOVIE,
         )
-        movieTVDao.upsertMovieOrTvCached(movieCached)
+        movieTVDao.upsertMovieOrTvCached(listOf(movieCached))
         val result = movieTVDao.getMovieTvCached(1)
         assertEquals(result, movieCached)
     }
@@ -286,9 +286,7 @@ class RoomDbTest {
     }
 
     private suspend fun insertFakeMoviesAndSeries(list: List<MovieTvEntity>) {
-        list.forEach {
-            movieTVDao.upsertMovieOrTvCached(it)
-        }
+        movieTVDao.upsertMovieOrTvCached(list)
     }
 }
 

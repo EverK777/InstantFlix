@@ -3,13 +3,18 @@ package com.challenge.instantflix.presentation.feature.navigation
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.runtime.Composable
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.paging.compose.collectAsLazyPagingItems
+import androidx.navigation.NavHostController
+import com.challenge.instantflix.core.data.model.MovieTvEntity
+import com.challenge.instantflix.core.data.model.formatGenres
+import com.challenge.instantflix.core.data.model.getImagePoster
+import com.challenge.instantflix.core.utils.emptyStringHandler
 import com.challenge.instantflix.presentation.feature.dashboard.home.HomeScreen
 import com.challenge.instantflix.presentation.feature.dashboard.home.HomeViewModel
 import com.challenge.instantflix.presentation.feature.detail.DetailView
 import com.google.accompanist.navigation.animation.AnimatedNavHost
 import com.google.accompanist.navigation.animation.rememberAnimatedNavController
+import java.net.URLEncoder
+import java.nio.charset.StandardCharsets
 
 @OptIn(ExperimentalAnimationApi::class)
 @Composable
@@ -27,14 +32,11 @@ fun MainGraph() {
                         route = routes.route,
                     ) {
                         val viewModel = hiltViewModel<HomeViewModel>()
-                        val trending =
-                            viewModel.trendingMoviesTvShowsFlow.collectAsStateWithLifecycle()
-                        val popularMovies =
-                            viewModel.popularMoviesPagerFlow.collectAsLazyPagingItems()
-                        val popularTvShows = viewModel.popularTvShowsFlow.collectAsLazyPagingItems()
-                        val topRatedMovies = viewModel.topRatedMoviesFlow.collectAsLazyPagingItems()
-                        val topRatedTvShows =
-                            viewModel.topRatedTvShowsFlow.collectAsLazyPagingItems()
+                        val trending = viewModel.trendingMoviesTvShowsFlow
+                        val popularMovies = viewModel.popularMoviesPagerFlow
+                        val popularTvShows = viewModel.popularTvShowsFlow
+                        val topRatedMovies = viewModel.topRatedMoviesFlow
+                        val topRatedTvShows = viewModel.topRatedTvShowsFlow
 
                         HomeScreen(
                             movieTvEntity = { trending.value },
@@ -42,8 +44,9 @@ fun MainGraph() {
                             popularTvShows = popularTvShows,
                             topRatedMovies = topRatedMovies,
                             topRatedTvShows = topRatedTvShows,
-                            navController = navController,
-                        )
+                        ) { movieTv ->
+                            navigateToDetail(movieTv, navController)
+                        }
                     }
                 }
 
@@ -82,11 +85,26 @@ fun MainGraph() {
                             overview = override,
                             voteAverage = vote,
                             releaseYear = year,
-                            navHostController = navController,
-                        )
+                        ) {
+                            navController.popBackStack()
+                        }
                     }
                 }
             }
         }
+    }
+}
+
+private fun navigateToDetail(movieTvEntity: MovieTvEntity, navController: NavHostController) {
+    val poster = movieTvEntity.getImagePoster()
+    val encodedUrl = URLEncoder.encode(poster, StandardCharsets.UTF_8.toString())
+    val type = movieTvEntity.typeRequest.type
+    val name = movieTvEntity.title.emptyStringHandler()
+    val overview = movieTvEntity.overview.emptyStringHandler()
+    val genres = movieTvEntity.formatGenres()
+    val vote = movieTvEntity.voteAverage?.toString().emptyStringHandler()
+    val year = movieTvEntity.releaseDate?.substringBefore("-").emptyStringHandler()
+    navController.navigate("detail/$encodedUrl/$type/$name/$overview/$genres/$vote/$year") {
+        launchSingleTop = true
     }
 }

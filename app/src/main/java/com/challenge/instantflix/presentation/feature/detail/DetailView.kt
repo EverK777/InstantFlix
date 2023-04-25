@@ -43,7 +43,6 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
-import androidx.navigation.NavHostController
 import com.challenge.instantflix.R
 import com.challenge.instantflix.presentation.ui.composables.PosterGradientComposable
 import com.challenge.instantflix.presentation.ui.composables.TopGradientComposable
@@ -58,7 +57,7 @@ fun DetailView(
     overview: String,
     voteAverage: String,
     releaseYear: String,
-    navHostController: NavHostController,
+    onBackPress: () -> Unit,
 ) {
     val configuration = LocalConfiguration.current
     val heightPoster = configuration.screenHeightDp.dp.value * 0.65
@@ -216,9 +215,7 @@ fun DetailView(
                         .size(48.dp)
                         .background(MaterialTheme.colorScheme.background, shape = CircleShape),
                 ) {
-                    IconButton(onClick = {
-                        navHostController.popBackStack()
-                    }) {
+                    IconButton(onClick = onBackPress::invoke) {
                         Icon(
                             imageVector = Icons.Filled.ArrowBack,
                             contentDescription = "Back",

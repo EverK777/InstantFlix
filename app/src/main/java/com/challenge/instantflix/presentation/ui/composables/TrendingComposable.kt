@@ -15,6 +15,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -25,6 +26,9 @@ import com.challenge.instantflix.R
 import com.challenge.instantflix.core.data.model.MovieTvEntity
 import com.challenge.instantflix.core.data.model.formatGenres
 import com.challenge.instantflix.core.data.model.getImagePoster
+import com.challenge.instantflix.core.utils.TestTags.IMAGE_POSTER_TAG
+import com.challenge.instantflix.core.utils.TestTags.INFO_ICON_TEXT_TAG
+import com.challenge.instantflix.core.utils.TestTags.POSTER_GENRES_TAG
 
 @Composable
 fun TrendingComposable(
@@ -64,6 +68,7 @@ fun TrendingComposable(
                     style = MaterialTheme.typography.headlineLarge,
                     textAlign = TextAlign.Center,
                     fontWeight = FontWeight.W800,
+                    modifier = Modifier.testTag(IMAGE_POSTER_TAG),
                 )
 
                 Text(
@@ -72,7 +77,7 @@ fun TrendingComposable(
                     style = MaterialTheme.typography.labelSmall,
                     textAlign = TextAlign.Center,
                     fontWeight = FontWeight.Light,
-                    modifier = Modifier.padding(vertical = 20.dp),
+                    modifier = Modifier.padding(vertical = 20.dp).testTag(POSTER_GENRES_TAG),
                 )
 
                 Column(
@@ -93,6 +98,7 @@ fun TrendingComposable(
                         text = stringResource(R.string.info),
                         color = MaterialTheme.colorScheme.onBackground,
                         style = MaterialTheme.typography.bodyMedium,
+                        modifier = Modifier.testTag(INFO_ICON_TEXT_TAG),
                     )
                 }
             }

@@ -78,6 +78,21 @@ android {
         }
         resolutionStrategy.force "androidx.compose.animation:animation:1.4.0"
     }
+
+    defaultConfig {
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+    sourceSets {
+        // Adds exported schema location as test app assets.
+        androidTest.assets.srcDirs += files("$projectDir/schemas".toString())
+    }
+
+    testOptions {
+        animationsDisabled = true
+        unitTests {
+            includeAndroidResources = true
+        }
+    }
 }
 
 dependencies {
@@ -150,7 +165,10 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
     androidTestImplementation 'androidx.compose.ui:ui-test-junit4'
     androidTestImplementation "androidx.paging:paging-common-ktx:3.1.1"
-   // androidTestImplementation "androidx.room:room-paging:2.5.1"
+    androidTestImplementation "com.google.dagger:hilt-android-testing:2.38.1"
+    androidTestImplementation "androidx.room:room-testing:2.5.1"
+    kaptAndroidTest "com.google.dagger:hilt-android-compiler:2.44"
+
 
     debugImplementation 'androidx.compose.ui:ui-tooling'
     debugImplementation 'androidx.compose.ui:ui-test-manifest'

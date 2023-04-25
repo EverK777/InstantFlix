@@ -13,31 +13,34 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
-import androidx.navigation.NavHostController
-import androidx.paging.compose.LazyPagingItems
+import androidx.paging.PagingData
+import androidx.paging.compose.collectAsLazyPagingItems
 import com.challenge.instantflix.R
 import com.challenge.instantflix.core.data.model.MovieTvEntity
-import com.challenge.instantflix.core.data.model.formatGenres
-import com.challenge.instantflix.core.data.model.getImagePoster
-import com.challenge.instantflix.core.utils.emptyStringHandler
+import com.challenge.instantflix.core.utils.TestTags.MOVIES_CONTAINER_TAG
 import com.challenge.instantflix.presentation.ui.composables.ListPagerComposable
 import com.challenge.instantflix.presentation.ui.composables.TopGradientComposable
 import com.challenge.instantflix.presentation.ui.composables.TrendingComposable
-import java.net.URLEncoder
-import java.nio.charset.StandardCharsets
+import kotlinx.coroutines.flow.Flow
 
 @Composable
 fun HomeScreen(
     movieTvEntity: () -> MovieTvEntity?,
-    popularMovies: LazyPagingItems<MovieTvEntity>,
-    popularTvShows: LazyPagingItems<MovieTvEntity>,
-    topRatedMovies: LazyPagingItems<MovieTvEntity>,
-    topRatedTvShows: LazyPagingItems<MovieTvEntity>,
-    navController: NavHostController,
+    popularMovies: Flow<PagingData<MovieTvEntity>>,
+    popularTvShows: Flow<PagingData<MovieTvEntity>>,
+    topRatedMovies: Flow<PagingData<MovieTvEntity>>,
+    topRatedTvShows: Flow<PagingData<MovieTvEntity>>,
+    onItemClick: (MovieTvEntity) -> Unit,
 ) {
+    val popularMoviesCollected = popularMovies.collectAsLazyPagingItems()
+    val popularTvShowsCollected = popularTvShows.collectAsLazyPagingItems()
+    val topRatedMoviesCollected = topRatedMovies.collectAsLazyPagingItems()
+    val topRatedTvShowsCollected = topRatedTvShows.collectAsLazyPagingItems()
+
     val listState = rememberLazyListState()
     val configuration = LocalConfiguration.current
     val heightPoster = configuration.screenHeightDp.dp.value * 0.75
@@ -52,14 +55,14 @@ fun HomeScreen(
                     top.linkTo(parent.top)
                     start.linkTo(parent.start)
                     end.linkTo(parent.end)
-                }.fillMaxSize(),
+                }.fillMaxSize().testTag(MOVIES_CONTAINER_TAG),
                 state = listState,
             ) {
                 item {
                     Box(modifier = Modifier.height(heightPoster.dp)) {
                         TrendingComposable(movieTvEntity) {
                             movieTvEntity.invoke()?.let { movieTvEntity ->
-                                navigateToDetail(movieTvEntity, navController)
+                                onItemClick.invoke(movieTvEntity)
                             }
                         }
                     }
@@ -67,36 +70,36 @@ fun HomeScreen(
                 item {
                     ListPagerComposable(
                         title = stringResource(R.string.popular_movies),
-                        pagingItems = popularMovies,
+                        pagingItems = popularMoviesCollected,
                     ) { movieTvEntity ->
-                        navigateToDetail(movieTvEntity, navController)
+                        onItemClick.invoke(movieTvEntity)
                     }
                 }
 
                 item {
                     ListPagerComposable(
                         title = stringResource(R.string.popular_tv_shows),
-                        pagingItems = popularTvShows,
+                        pagingItems = popularTvShowsCollected,
                     ) { movieTvEntity ->
-                        navigateToDetail(movieTvEntity, navController)
+                        onItemClick.invoke(movieTvEntity)
                     }
                 }
 
                 item {
                     ListPagerComposable(
                         title = stringResource(R.string.top_rated_movie),
-                        pagingItems = topRatedMovies,
+                        pagingItems = topRatedMoviesCollected,
                     ) { movieTvEntity ->
-                        navigateToDetail(movieTvEntity, navController)
+                        onItemClick.invoke(movieTvEntity)
                     }
                 }
 
                 item {
                     ListPagerComposable(
                         title = stringResource(R.string.top_rated_tv_shows),
-                        pagingItems = topRatedTvShows,
+                        pagingItems = topRatedTvShowsCollected,
                     ) { movieTvEntity ->
-                        navigateToDetail(movieTvEntity, navController)
+                        onItemClick.invoke(movieTvEntity)
                     }
                 }
             }
@@ -119,11 +122,10 @@ fun HomeScreen(
         }
 
         if (movieTvEntity.invoke() == null &&
-            popularMovies.itemSnapshotList.isEmpty() &&
-            popularTvShows.itemSnapshotList.isEmpty() &&
-            topRatedMovies.itemSnapshotList.isEmpty() &&
-            topRatedTvShows.itemSnapshotList.isEmpty() &&
-            topRatedTvShows.itemSnapshotList.isEmpty()
+            popularMoviesCollected.itemSnapshotList.isEmpty() &&
+            popularTvShowsCollected.itemSnapshotList.isEmpty() &&
+            topRatedMoviesCollected.itemSnapshotList.isEmpty() &&
+            topRatedTvShowsCollected.itemSnapshotList.isEmpty()
         ) {
             Box(
                 modifier = Modifier
@@ -134,19 +136,5 @@ fun HomeScreen(
                 CircularProgressIndicator()
             }
         }
-    }
-}
-
-private fun navigateToDetail(movieTvEntity: MovieTvEntity, navController: NavHostController) {
-    val poster = movieTvEntity.getImagePoster()
-    val encodedUrl = URLEncoder.encode(poster, StandardCharsets.UTF_8.toString())
-    val type = movieTvEntity.typeRequest.type
-    val name = movieTvEntity.title.emptyStringHandler()
-    val overview = movieTvEntity.overview.emptyStringHandler()
-    val genres = movieTvEntity.formatGenres()
-    val vote = movieTvEntity.voteAverage?.toString().emptyStringHandler()
-    val year = movieTvEntity.releaseDate?.substringBefore("-").emptyStringHandler()
-    navController.navigate("detail/$encodedUrl/$type/$name/$overview/$genres/$vote/$year") {
-        launchSingleTop = true
     }
 }
