@@ -4,9 +4,10 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyRow
-import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -15,7 +16,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import androidx.paging.LoadState
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.items
 import com.challenge.instantflix.core.data.model.MovieTvEntity
@@ -24,9 +24,13 @@ import com.challenge.instantflix.core.data.model.MovieTvEntity
 fun ListPagerComposable(
     title: String,
     pagingItems: LazyPagingItems<MovieTvEntity>,
+    onItemClick: (MovieTvEntity) -> Unit,
 ) {
+    val listState = rememberLazyListState()
+
     Column(
-        modifier = Modifier.fillMaxWidth(),
+        modifier = Modifier.fillMaxWidth()
+            .height(320.dp),
     ) {
         Text(
             text = title,
@@ -41,15 +45,11 @@ fun ListPagerComposable(
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.Center,
             contentPadding = PaddingValues(horizontal = 8.dp),
+            state = listState,
         ) {
             items(pagingItems) { movieTvEntity ->
                 movieTvEntity?.let {
-                    ItemMovieTvShow(movieTv = movieTvEntity)
-                }
-            }
-            item {
-                if (pagingItems.loadState.append is LoadState.Loading) {
-                    CircularProgressIndicator()
+                    ItemMovieTvShow(movieTv = movieTvEntity, onItemClick = onItemClick::invoke)
                 }
             }
         }

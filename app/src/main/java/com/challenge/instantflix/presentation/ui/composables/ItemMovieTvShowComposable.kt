@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -20,14 +21,19 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.challenge.instantflix.core.data.model.MovieTvEntity
 import com.challenge.instantflix.core.data.model.formatGenres
-import com.challenge.instantflix.core.data.model.getImageBackDrop
+import com.challenge.instantflix.core.data.model.getImagePoster
 import com.skydoves.landscapist.ShimmerParams
 import com.skydoves.landscapist.glide.GlideImage
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ItemMovieTvShow(
     movieTv: MovieTvEntity,
+    onItemClick: (movieTv: MovieTvEntity) -> Unit,
 ) {
+    val imageUrl =
+        if (movieTv.backdropPath.isNullOrEmpty()) movieTv.getImagePoster() else movieTv.getImagePoster()
+
     Column(modifier = Modifier.padding(8.dp).width(176.15.dp)) {
         Card(
             shape = RoundedCornerShape(20.dp),
@@ -36,10 +42,13 @@ fun ItemMovieTvShow(
             ),
             elevation = CardDefaults.cardElevation(0.dp),
             modifier = Modifier.width(176.15.dp).height(185.dp),
+            onClick = {
+                onItemClick.invoke(movieTv)
+            },
         ) {
             GlideImage(
                 modifier = Modifier.fillMaxWidth().height(185.dp),
-                imageModel = movieTv.getImageBackDrop(),
+                imageModel = imageUrl,
                 contentScale = ContentScale.Crop,
                 shimmerParams = ShimmerParams(
                     baseColor = MaterialTheme.colorScheme.background,
