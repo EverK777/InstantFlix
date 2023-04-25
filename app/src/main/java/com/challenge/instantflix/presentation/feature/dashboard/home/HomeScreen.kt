@@ -17,6 +17,7 @@ import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.paging.PagingData
 import androidx.paging.compose.collectAsLazyPagingItems
 import com.challenge.instantflix.R
@@ -26,16 +27,18 @@ import com.challenge.instantflix.presentation.ui.composables.ListPagerComposable
 import com.challenge.instantflix.presentation.ui.composables.TopGradientComposable
 import com.challenge.instantflix.presentation.ui.composables.TrendingComposable
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.StateFlow
 
 @Composable
 fun HomeScreen(
-    movieTvEntity: () -> MovieTvEntity?,
+    movieTvEntity: StateFlow<MovieTvEntity?>,
     popularMovies: Flow<PagingData<MovieTvEntity>>,
     popularTvShows: Flow<PagingData<MovieTvEntity>>,
     topRatedMovies: Flow<PagingData<MovieTvEntity>>,
     topRatedTvShows: Flow<PagingData<MovieTvEntity>>,
     onItemClick: (MovieTvEntity) -> Unit,
 ) {
+    val movieTvEntityCollected = movieTvEntity.collectAsStateWithLifecycle()
     val popularMoviesCollected = popularMovies.collectAsLazyPagingItems()
     val popularTvShowsCollected = popularTvShows.collectAsLazyPagingItems()
     val topRatedMoviesCollected = topRatedMovies.collectAsLazyPagingItems()
@@ -60,8 +63,8 @@ fun HomeScreen(
             ) {
                 item {
                     Box(modifier = Modifier.height(heightPoster.dp)) {
-                        TrendingComposable(movieTvEntity) {
-                            movieTvEntity.invoke()?.let { movieTvEntity ->
+                        movieTvEntityCollected.value?.let { movieTvEntity ->
+                            TrendingComposable({ movieTvEntity }) {
                                 onItemClick.invoke(movieTvEntity)
                             }
                         }
@@ -121,7 +124,7 @@ fun HomeScreen(
             }
         }
 
-        if (movieTvEntity.invoke() == null &&
+        if (movieTvEntityCollected.value == null &&
             popularMoviesCollected.itemSnapshotList.isEmpty() &&
             popularTvShowsCollected.itemSnapshotList.isEmpty() &&
             topRatedMoviesCollected.itemSnapshotList.isEmpty() &&
