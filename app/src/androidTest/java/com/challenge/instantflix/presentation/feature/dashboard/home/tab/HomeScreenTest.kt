@@ -25,6 +25,7 @@ import com.challenge.instantflix.helpers.fakeTrendingMovie
 import com.challenge.instantflix.presentation.feature.dashboard.home.HomeScreen
 import com.challenge.instantflix.presentation.ui.theme.InstantflixTheme
 import com.google.gson.Gson
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.flowOf
 import org.junit.Before
 import org.junit.Rule
@@ -77,7 +78,7 @@ class HomeScreenTest {
             InstantflixTheme(true) {
                 Surface(color = MaterialTheme.colorScheme.background) {
                     HomeScreen(
-                        movieTvEntity = { fakeTrendingMovie },
+                        movieTvEntity = MutableStateFlow(fakeTrendingMovie),
                         popularMovies = flowOf(pagingDataPopularMovies),
                         popularTvShows = flowOf(pagingDataPopularTvShows),
                         topRatedMovies = flowOf(pagingDataTopRatedMovies),

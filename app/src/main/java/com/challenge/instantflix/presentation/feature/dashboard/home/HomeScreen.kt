@@ -31,14 +31,14 @@ import kotlinx.coroutines.flow.StateFlow
 
 @Composable
 fun HomeScreen(
-    movieTvEntityFlow: StateFlow<MovieTvEntity?>,
+    movieTvEntity: StateFlow<MovieTvEntity?>,
     popularMovies: Flow<PagingData<MovieTvEntity>>,
     popularTvShows: Flow<PagingData<MovieTvEntity>>,
     topRatedMovies: Flow<PagingData<MovieTvEntity>>,
     topRatedTvShows: Flow<PagingData<MovieTvEntity>>,
     onItemClick: (MovieTvEntity) -> Unit,
 ) {
-    val movieTvEntity = movieTvEntityFlow.collectAsStateWithLifecycle()
+    val movieTvEntityCollected = movieTvEntity.collectAsStateWithLifecycle()
     val popularMoviesCollected = popularMovies.collectAsLazyPagingItems()
     val popularTvShowsCollected = popularTvShows.collectAsLazyPagingItems()
     val topRatedMoviesCollected = topRatedMovies.collectAsLazyPagingItems()
@@ -63,7 +63,7 @@ fun HomeScreen(
             ) {
                 item {
                     Box(modifier = Modifier.height(heightPoster.dp)) {
-                        movieTvEntity.value?.let { movieTvEntity ->
+                        movieTvEntityCollected.value?.let { movieTvEntity ->
                             TrendingComposable({ movieTvEntity }) {
                                 onItemClick.invoke(movieTvEntity)
                             }
@@ -124,7 +124,7 @@ fun HomeScreen(
             }
         }
 
-        if (movieTvEntity.value == null &&
+        if (movieTvEntityCollected.value == null &&
             popularMoviesCollected.itemSnapshotList.isEmpty() &&
             popularTvShowsCollected.itemSnapshotList.isEmpty() &&
             topRatedMoviesCollected.itemSnapshotList.isEmpty() &&
