@@ -99,10 +99,10 @@ private fun navigateToDetail(movieTvEntity: MovieTvEntity, navController: NavHos
     val poster = movieTvEntity.getImagePoster()
     val encodedUrl = URLEncoder.encode(poster, StandardCharsets.UTF_8.toString())
     val type = movieTvEntity.typeRequest.type
-    val name = movieTvEntity.title.emptyStringHandler()
-    val overview = movieTvEntity.overview.emptyStringHandler()
-    val genres = movieTvEntity.formatGenres()
-    val vote = movieTvEntity.voteAverage?.toString().emptyStringHandler()
+    val name = movieTvEntity.title.emptyStringHandler().slashReplacer()
+    val overview = movieTvEntity.overview.emptyStringHandler().slashReplacer()
+    val genres = movieTvEntity.formatGenres().slashReplacer()
+    val vote = movieTvEntity.voteAverage?.toString().emptyStringHandler().slashReplacer()
     val year = movieTvEntity.releaseDate?.substringBefore("-").emptyStringHandler()
     navController.navigate("detail/$encodedUrl/$type/$name/$overview/$genres/$vote/$year") {
         launchSingleTop = true

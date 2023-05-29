@@ -68,8 +68,10 @@ fun InstantflixTheme(
 
             currentWindow.statusBarColor = colorScheme.background.toArgb()
             currentWindow.navigationBarColor = colorScheme.background.toArgb()
-            WindowCompat.getInsetsController(currentWindow, view).isAppearanceLightStatusBars = !darkTheme
-            WindowCompat.getInsetsController(currentWindow, view).isAppearanceLightNavigationBars = !darkTheme
+            WindowCompat.getInsetsController(currentWindow, view).isAppearanceLightStatusBars =
+                !darkTheme
+            WindowCompat.getInsetsController(currentWindow, view).isAppearanceLightNavigationBars =
+                !darkTheme
         }
     }
 
