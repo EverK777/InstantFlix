@@ -10,6 +10,7 @@ import com.theblackbit.instantflix.core.data.model.MovieTvEntity
 import com.theblackbit.instantflix.core.data.model.formatGenres
 import com.theblackbit.instantflix.core.data.model.getImagePoster
 import com.theblackbit.instantflix.core.utils.emptyStringHandler
+import com.theblackbit.instantflix.core.utils.slashReplacer
 import com.theblackbit.instantflix.presentation.feature.dashboard.home.HomeScreen
 import com.theblackbit.instantflix.presentation.feature.dashboard.home.HomeViewModel
 import com.theblackbit.instantflix.presentation.feature.detail.DetailView
