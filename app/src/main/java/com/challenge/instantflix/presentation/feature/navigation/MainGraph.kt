@@ -8,6 +8,7 @@ import com.challenge.instantflix.core.data.model.MovieTvEntity
 import com.challenge.instantflix.core.data.model.formatGenres
 import com.challenge.instantflix.core.data.model.getImagePoster
 import com.challenge.instantflix.core.utils.emptyStringHandler
+import com.challenge.instantflix.core.utils.slashReplacer
 import com.challenge.instantflix.presentation.feature.dashboard.home.HomeScreen
 import com.challenge.instantflix.presentation.feature.dashboard.home.HomeViewModel
 import com.challenge.instantflix.presentation.feature.detail.DetailView
@@ -99,10 +100,10 @@ private fun navigateToDetail(movieTvEntity: MovieTvEntity, navController: NavHos
     val poster = movieTvEntity.getImagePoster()
     val encodedUrl = URLEncoder.encode(poster, StandardCharsets.UTF_8.toString())
     val type = movieTvEntity.typeRequest.type
-    val name = movieTvEntity.title.emptyStringHandler()
-    val overview = movieTvEntity.overview.emptyStringHandler()
-    val genres = movieTvEntity.formatGenres()
-    val vote = movieTvEntity.voteAverage?.toString().emptyStringHandler()
+    val name = movieTvEntity.title.emptyStringHandler().slashReplacer()
+    val overview = movieTvEntity.overview.emptyStringHandler().slashReplacer()
+    val genres = movieTvEntity.formatGenres().slashReplacer()
+    val vote = movieTvEntity.voteAverage?.toString().emptyStringHandler().slashReplacer()
     val year = movieTvEntity.releaseDate?.substringBefore("-").emptyStringHandler()
     navController.navigate("detail/$encodedUrl/$type/$name/$overview/$genres/$vote/$year") {
         launchSingleTop = true
