@@ -1,5 +1,10 @@
 package com.challenge.instantflix.core.data.model
 
+import com.theblackbit.instantflix.core.data.model.MovieTvEntity
+import com.theblackbit.instantflix.core.data.model.RequestCategory
+import com.theblackbit.instantflix.core.data.model.TypeRequest
+import com.theblackbit.instantflix.core.data.model.getImageBackDrop
+import com.theblackbit.instantflix.core.data.model.getImagePoster
 import junit.framework.TestCase.assertEquals
 import org.junit.Test
 
