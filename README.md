@@ -49,7 +49,6 @@ Jetpack compose was used for the user interface design.
 <li>Paging 3</li>
 <li>Retrofit</li>
 <li>ROOM</li>
-<li>presentation</li>
 <li>Kotlin Coroutines</li>
 <li>Kotlin Flows</li>
 </ul>
