@@ -16,11 +16,11 @@ def apikeyProperties = new Properties()
 apikeyProperties.load(new FileInputStream(apikeyPropertiesFile))
 
 android {
-    namespace 'com.challenge.instantflix'
+    namespace 'com.theblackbit.instantflix'
     compileSdk 33
 
     defaultConfig {
-        applicationId "com.challenge.instantflix"
+        applicationId "com.theblackbit.instantflix"
         minSdk 24
         targetSdk 33
         versionCode 1
